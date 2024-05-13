@@ -1,9 +1,7 @@
 package com.openclassrooms.chatop;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class ChatopApplication {
@@ -12,8 +10,4 @@ public class ChatopApplication {
 		SpringApplication.run(ChatopApplication.class, args);
 	}
 
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
 }
