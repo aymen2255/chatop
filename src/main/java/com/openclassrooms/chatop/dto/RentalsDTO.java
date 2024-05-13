@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RentalsDTO {
 
-	private List<RentalDTO> listRental;
+	private List<RentalDTO> rentals;
 }

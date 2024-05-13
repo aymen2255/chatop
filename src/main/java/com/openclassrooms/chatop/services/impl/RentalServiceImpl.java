@@ -30,7 +30,7 @@ public class RentalServiceImpl implements RentalService {
 		}
 
 		RentalsDTO rentalsDTO = new RentalsDTO();
-		rentalsDTO.setListRental(listRentalDTO);
+		rentalsDTO.setRentals(listRentalDTO);
 
 		return rentalsDTO;
 	}
