@@ -66,7 +66,7 @@ public class Rental {
 	@JoinColumn(name="owner_id", nullable = false)
 	private User user;
 	
-	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Message> messages = new ArrayList<>();
 
 }
