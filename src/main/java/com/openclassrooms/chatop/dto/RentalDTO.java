@@ -1,13 +1,18 @@
 package com.openclassrooms.chatop.dto;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.openclassrooms.chatop.model.Message;
-import com.openclassrooms.chatop.model.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RentalDTO {
 
 	private int id;
@@ -16,9 +21,13 @@ public class RentalDTO {
 	private Double price;
 	public String picture;
 	public String description;
+	
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Timestamp createdAt;
+	
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Timestamp updatedAt;
-	private User user;
-	List<Message> messages = new ArrayList<>();
+	
+	private int owner_id;
 	
 }

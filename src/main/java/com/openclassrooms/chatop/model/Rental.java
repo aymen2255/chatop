@@ -35,9 +35,8 @@ public class Rental {
 
 	private Double surface;
 
-	
 	private Double price;
-	
+
 	@Column(name = "picture", length = 255)
 	public String picture;
 
@@ -50,7 +49,6 @@ public class Rental {
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
 
-	
 	@PrePersist
 	public void onCreate() {
 		createdAt = new Timestamp(System.currentTimeMillis());
@@ -62,10 +60,10 @@ public class Rental {
 		updatedAt = new Timestamp(System.currentTimeMillis());
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="owner_id", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "owner_id", nullable = false)
 	private User user;
-	
+
 	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Message> messages = new ArrayList<>();
 
