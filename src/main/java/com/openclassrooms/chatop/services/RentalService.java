@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.openclassrooms.chatop.dto.RentalDTO;
 import com.openclassrooms.chatop.model.Rental;
 
 @Service
 public interface RentalService {
 
 	List<Rental> getRentals();
+
+	RentalDTO convertRentalToDTO(Rental rental);
 }
