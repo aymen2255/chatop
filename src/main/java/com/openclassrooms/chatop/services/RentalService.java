@@ -1,7 +1,5 @@
 package com.openclassrooms.chatop.services;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.chatop.dto.RentalDTO;
@@ -13,5 +11,5 @@ public interface RentalService {
 
 	RentalsDTO getAllRentals();
 
-	RentalDTO convertRentalToDTO(Rental rental);
+	RentalDTO getRentalById(Integer rentalId);
 }

@@ -2,6 +2,7 @@ package com.openclassrooms.chatop.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class RentalServiceImpl implements RentalService {
 		List<RentalDTO> listRentalDTO = new ArrayList<>(rentals.size());
 
 		for (Rental rental : rentals) {
-			listRentalDTO.add(convertRentalToDTO(rental));
+			listRentalDTO.add(RentalDTO.convertRentalToDTO(rental));
 		}
 
 		RentalsDTO rentalsDTO = new RentalsDTO();
@@ -36,20 +37,13 @@ public class RentalServiceImpl implements RentalService {
 	}
 
 	@Override
-	public RentalDTO convertRentalToDTO(Rental rental) {
+	public RentalDTO getRentalById(final Integer rentalId) {
 
-		return RentalDTO.builder()
-				.id(rental.getId())
-				.name(rental.getName())
-				.surface(rental.getSurface())
-				.price(rental.getPrice())
-				.picture(rental.getPicture())
-				.description(rental.getDescription())
-				.owner_id(rental.getUser().getId())
-				.createdAt(rental.getCreatedAt())
-				.updatedAt(rental.getUpdatedAt())
-				.build();
+		Optional<Rental> rental = rentalRepository.findById(rentalId);
+		if (rental.isPresent())
+			return RentalDTO.convertRentalToDTO(rental.get());
 
+		return null;
 	}
 
 }
