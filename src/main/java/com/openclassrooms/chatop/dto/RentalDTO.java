@@ -31,12 +31,10 @@ public class RentalDTO {
 	
     @NotNull
     @Positive(message = "Surface must be greater than zero")
-    @NotBlank(message = "Surface is required")
 	private Double surface;
     
     @NotNull
     @Positive(message = "Price must be greater than zero")
-    @NotBlank(message = "Price is required")
 	private Double price;
     
 	public String picture;
