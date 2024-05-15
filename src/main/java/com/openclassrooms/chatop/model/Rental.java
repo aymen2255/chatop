@@ -37,7 +37,6 @@ public class Rental {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@NotBlank(message = "Name is required")
 	@Column(name = "name", nullable = false, length = 255)
 	private String name;
 
@@ -75,17 +74,11 @@ public class Rental {
 	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Message> messages = new ArrayList<>();
 
-	
 	public static Rental convertDTOToEntity(RentalDTO rentalDTO) {
-		
-		return Rental.builder()
-		.id(rentalDTO.getId())
-		.name(rentalDTO.getName())
-		.surface(rentalDTO.getSurface())
-		.price(rentalDTO.getPrice())
-		.picture(rentalDTO.getPicture())
-		.description(rentalDTO.getDescription())
-		.build();
+
+		return Rental.builder().id(rentalDTO.getId()).name(rentalDTO.getName()).surface(rentalDTO.getSurface())
+				.price(rentalDTO.getPrice()).picture(rentalDTO.getPicture()).description(rentalDTO.getDescription())
+				.build();
 	}
-	
+
 }
