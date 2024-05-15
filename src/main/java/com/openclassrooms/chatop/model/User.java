@@ -35,15 +35,15 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@NotBlank(message = "Email is required")
+	
 	@Column(name = "email", unique = true, nullable = false, length = 255)
 	private String email;
 
-	@NotBlank(message = "Name is required")
+	
 	@Column(name = "name", nullable = false, length = 255)
 	private String name;
 
-	@NotBlank(message = "password is required")
+	
 	@Column(name = "password", nullable = false, length = 255)
 	private String password;
 
