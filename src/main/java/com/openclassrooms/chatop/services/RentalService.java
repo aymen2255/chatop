@@ -12,4 +12,6 @@ public interface RentalService {
 	RentalsDTO getAllRentals();
 
 	RentalDTO getRentalById(Integer rentalId);
+
+	RentalDTO newRental(RentalDTO rentalDTO);
 }

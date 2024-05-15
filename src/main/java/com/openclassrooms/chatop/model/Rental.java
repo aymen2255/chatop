@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.openclassrooms.chatop.dto.RentalDTO;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,11 +20,17 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "rentals")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Rental {
 
 	@Id
@@ -67,4 +75,17 @@ public class Rental {
 	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Message> messages = new ArrayList<>();
 
+	
+	public static Rental convertDTOToEntity(RentalDTO rentalDTO) {
+		
+		return Rental.builder()
+		.id(rentalDTO.getId())
+		.name(rentalDTO.getName())
+		.surface(rentalDTO.getSurface())
+		.price(rentalDTO.getPrice())
+		.picture(rentalDTO.getPicture())
+		.description(rentalDTO.getDescription())
+		.build();
+	}
+	
 }

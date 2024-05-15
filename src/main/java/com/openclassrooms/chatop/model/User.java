@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.openclassrooms.chatop.dto.UserDTO;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,11 +18,17 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "users")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
 	@Id
@@ -44,15 +52,12 @@ public class User {
 
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
-	
-	
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Rental> rentals = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Message> messages = new ArrayList<>();
-	
-	
 
 	@PrePersist
 	public void onCreate() {
@@ -63,5 +68,15 @@ public class User {
 	@PreUpdate
 	public void onUpdate() {
 		updatedAt = new Timestamp(System.currentTimeMillis());
+	}
+
+	public static User convertDTOToEntity(UserDTO userDTO) {
+
+		return User.builder()
+				.id(userDTO.getId())
+				.email(userDTO.getEmail())
+				.name(userDTO.getName())
+				.password(userDTO.getPassword())				
+				.build();
 	}
 }

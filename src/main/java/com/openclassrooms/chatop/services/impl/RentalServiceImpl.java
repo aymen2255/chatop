@@ -10,14 +10,21 @@ import org.springframework.stereotype.Service;
 import com.openclassrooms.chatop.dto.RentalDTO;
 import com.openclassrooms.chatop.dto.RentalsDTO;
 import com.openclassrooms.chatop.model.Rental;
+import com.openclassrooms.chatop.model.User;
 import com.openclassrooms.chatop.repository.RentalRepository;
+import com.openclassrooms.chatop.repository.UserRepository;
 import com.openclassrooms.chatop.services.RentalService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class RentalServiceImpl implements RentalService {
 
 	@Autowired
 	private RentalRepository rentalRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Override
 	public RentalsDTO getAllRentals() {
@@ -44,6 +51,19 @@ public class RentalServiceImpl implements RentalService {
 			return RentalDTO.convertRentalToDTO(rental.get());
 
 		return null;
+	}
+
+	@Override
+	public RentalDTO newRental(RentalDTO rentalDTO) {
+
+		Rental rental = Rental.convertDTOToEntity(rentalDTO);
+		User user = userRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé"));
+
+		rental.setUser(user);
+
+		Rental savedRental = rentalRepository.save(rental);
+
+		return RentalDTO.convertRentalToDTO(savedRental);
 	}
 
 }

@@ -1,5 +1,10 @@
 package com.openclassrooms.chatop.services;
 
-public interface UserService {
+import org.springframework.stereotype.Service;
 
+import com.openclassrooms.chatop.dto.UserDTO;
+
+@Service
+public interface UserService {
+	UserDTO getUserById(Integer userId);
 }
