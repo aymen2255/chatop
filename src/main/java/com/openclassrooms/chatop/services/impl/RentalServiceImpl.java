@@ -66,4 +66,26 @@ public class RentalServiceImpl implements RentalService {
 		return RentalDTO.convertRentalToDTO(savedRental);
 	}
 
+	@Override
+	public RentalDTO updateRental(Integer id, RentalDTO rentalDTO) {
+
+		
+		
+
+		User user = userRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé"));
+		
+		Rental existingRental = rentalRepository.findByIdAndUserId(id, user.getId());
+
+		System.out.println(existingRental.getId());
+		
+		Rental rental = Rental.convertDTOToEntity(rentalDTO);
+		
+		rental.setUser(user);
+		rental.setMessages(existingRental.getMessages());
+
+		Rental savedRental = rentalRepository.save(rental);
+
+		return RentalDTO.convertRentalToDTO(savedRental);
+	}
+
 }

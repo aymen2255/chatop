@@ -14,4 +14,7 @@ public interface RentalService {
 	RentalDTO getRentalById(Integer rentalId);
 
 	RentalDTO newRental(RentalDTO rentalDTO);
+
+	RentalDTO updateRental(Integer id, RentalDTO rentalDTO);
+
 }

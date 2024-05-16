@@ -4,6 +4,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.DynamicUpdate;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.openclassrooms.chatop.dto.RentalDTO;
 
 import jakarta.persistence.CascadeType;
@@ -31,6 +34,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicUpdate
 public class Rental {
 
 	@Id
@@ -69,9 +73,10 @@ public class Rental {
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "owner_id", nullable = false)
+	@JsonBackReference
 	private User user;
 
-	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "rental", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Message> messages = new ArrayList<>();
 
 	public static Rental convertDTOToEntity(RentalDTO rentalDTO) {

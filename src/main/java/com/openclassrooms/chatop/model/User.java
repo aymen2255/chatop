@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.openclassrooms.chatop.dto.UserDTO;
 
 import jakarta.persistence.CascadeType;
@@ -35,15 +36,12 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	
 	@Column(name = "email", unique = true, nullable = false, length = 255)
 	private String email;
 
-	
 	@Column(name = "name", nullable = false, length = 255)
 	private String name;
 
-	
 	@Column(name = "password", nullable = false, length = 255)
 	private String password;
 
@@ -53,10 +51,11 @@ public class User {
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JsonManagedReference
 	List<Rental> rentals = new ArrayList<>();
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Message> messages = new ArrayList<>();
 
 	@PrePersist
@@ -72,11 +71,7 @@ public class User {
 
 	public static User convertDTOToEntity(UserDTO userDTO) {
 
-		return User.builder()
-				.id(userDTO.getId())
-				.email(userDTO.getEmail())
-				.name(userDTO.getName())
-				.password(userDTO.getPassword())				
-				.build();
+		return User.builder().id(userDTO.getId()).email(userDTO.getEmail()).name(userDTO.getName())
+				.password(userDTO.getPassword()).build();
 	}
 }
