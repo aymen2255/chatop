@@ -11,6 +11,7 @@ import com.openclassrooms.chatop.dto.RentalDTO;
 import com.openclassrooms.chatop.dto.RentalsDTO;
 import com.openclassrooms.chatop.model.Rental;
 import com.openclassrooms.chatop.model.User;
+import com.openclassrooms.chatop.model.mapper.RentalMapper;
 import com.openclassrooms.chatop.repository.RentalRepository;
 import com.openclassrooms.chatop.repository.UserRepository;
 import com.openclassrooms.chatop.services.RentalService;
@@ -25,6 +26,7 @@ public class RentalServiceImpl implements RentalService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
 
 	@Override
 	public RentalsDTO getAllRentals() {
@@ -34,7 +36,7 @@ public class RentalServiceImpl implements RentalService {
 		List<RentalDTO> listRentalDTO = new ArrayList<>(rentals.size());
 
 		for (Rental rental : rentals) {
-			listRentalDTO.add(RentalDTO.convertRentalToDTO(rental));
+			listRentalDTO.add(RentalMapper.toDTO(rental));
 		}
 
 		RentalsDTO rentalsDTO = new RentalsDTO();
@@ -48,7 +50,7 @@ public class RentalServiceImpl implements RentalService {
 
 		Optional<Rental> rental = rentalRepository.findById(rentalId);
 		if (rental.isPresent())
-			return RentalDTO.convertRentalToDTO(rental.get());
+			return RentalMapper.toDTO(rental.get());
 
 		return null;
 	}
@@ -56,36 +58,31 @@ public class RentalServiceImpl implements RentalService {
 	@Override
 	public RentalDTO newRental(RentalDTO rentalDTO) {
 
-		Rental rental = Rental.convertDTOToEntity(rentalDTO);
+		Rental rental = RentalMapper.toEntity(rentalDTO);
 		User user = userRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé"));
 
 		rental.setUser(user);
 
 		Rental savedRental = rentalRepository.save(rental);
 
-		return RentalDTO.convertRentalToDTO(savedRental);
+		return RentalMapper.toDTO(savedRental);
 	}
 
 	@Override
 	public RentalDTO updateRental(Integer id, RentalDTO rentalDTO) {
 
-		
-		
-
 		User user = userRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé"));
 		
 		Rental existingRental = rentalRepository.findByIdAndUserId(id, user.getId());
-
-		System.out.println(existingRental.getId());
 		
-		Rental rental = Rental.convertDTOToEntity(rentalDTO);
+		Rental rental = RentalMapper.toEntity(rentalDTO);
 		
 		rental.setUser(user);
 		rental.setMessages(existingRental.getMessages());
 
 		Rental savedRental = rentalRepository.save(rental);
 
-		return RentalDTO.convertRentalToDTO(savedRental);
+		return RentalMapper.toDTO(savedRental);
 	}
 
 }

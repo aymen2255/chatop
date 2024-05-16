@@ -76,14 +76,9 @@ public class Rental {
 	@JsonBackReference
 	private User user;
 
-	@OneToMany(mappedBy = "rental", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Message> messages = new ArrayList<>();
 
-	public static Rental convertDTOToEntity(RentalDTO rentalDTO) {
 
-		return Rental.builder().id(rentalDTO.getId()).name(rentalDTO.getName()).surface(rentalDTO.getSurface())
-				.price(rentalDTO.getPrice()).picture(rentalDTO.getPicture()).description(rentalDTO.getDescription())
-				.build();
-	}
 
 }

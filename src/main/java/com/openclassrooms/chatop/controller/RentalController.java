@@ -61,34 +61,8 @@ public class RentalController {
 		}
 	}
 
-	@Autowired
-	private RentalRepository rentalRepository;
-
-	@Autowired
-	private UserRepository userRepository;
-
 	@PutMapping("/rentals/{id}")
 	public ResponseEntity<RentalDTO> updateRental(@RequestBody RentalDTO rentalDTO, @PathVariable Integer id) {
-//		try {
-//			User user = userRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé"));
-//			System.out.println(rentalDTO.getName());
-//
-//
-//			Rental existingRental = rentalRepository.findById(id)
-//                    .orElseThrow(() -> new EntityNotFoundException("Location non trouvée"));
-//			
-//			Rental rental = Rental.convertDTOToEntity(rentalDTO);
-//			rental.setUser(user);
-//			rental.setMessages(existingRental.getMessages());
-//			
-//			Rental updatedRental = rentalRepository.save(rental);
-//			
-//			System.out.println(updatedRental.getName());
-//			return ResponseEntity.status(HttpStatus.CREATED).body(rentalDTO);
-//		} catch (Exception e) {
-//System.out.println(e.getMessage());
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//		}
 
 		try {
 			RentalDTO createdRental = rentalService.updateRental(id, rentalDTO);

@@ -49,20 +49,6 @@ public class RentalDTO {
 
 	private int owner_id;
 
-	public static RentalDTO convertRentalToDTO(Rental rental) {
 
-		return RentalDTO.builder()
-				.id(rental.getId())
-				.name(rental.getName())
-				.surface(rental.getSurface())
-				.price(rental.getPrice())
-				.picture(rental.getPicture())
-				.description(rental.getDescription())
-				.owner_id(rental.getUser().getId())
-				.createdAt(rental.getCreatedAt())
-				.updatedAt(rental.getUpdatedAt())
-				.build();
-
-	}
 
 }
