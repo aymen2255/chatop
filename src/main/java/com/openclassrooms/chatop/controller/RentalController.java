@@ -62,7 +62,7 @@ public class RentalController {
 	}
 
 	@PutMapping("/rentals/{id}")
-	public ResponseEntity<RentalDTO> updateRental(@RequestBody RentalDTO rentalDTO, @PathVariable Integer id) {
+	public ResponseEntity<RentalDTO> updateRental(@RequestBody @Valid RentalDTO rentalDTO, @PathVariable Integer id) {
 
 		try {
 			RentalDTO createdRental = rentalService.updateRental(id, rentalDTO);

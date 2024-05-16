@@ -3,7 +3,6 @@ package com.openclassrooms.chatop.dto;
 import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.openclassrooms.chatop.model.Rental;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -21,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RentalDTO {
 
-	private int id;
+	private Integer id;
 	
 	@NotNull
 	@NotEmpty
@@ -47,8 +46,6 @@ public class RentalDTO {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp updatedAt;
 
-	private int owner_id;
-
-
+	private Integer owner_id;
 
 }

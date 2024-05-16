@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +30,8 @@ public class RentalServiceImpl implements RentalService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Override
 	public RentalsDTO getAllRentals() {
@@ -36,7 +41,7 @@ public class RentalServiceImpl implements RentalService {
 		List<RentalDTO> listRentalDTO = new ArrayList<>(rentals.size());
 
 		for (Rental rental : rentals) {
-			listRentalDTO.add(RentalMapper.toDTO(rental));
+			listRentalDTO.add(modelMapper.map(rental, RentalDTO.class));
 		}
 
 		RentalsDTO rentalsDTO = new RentalsDTO();
@@ -50,7 +55,7 @@ public class RentalServiceImpl implements RentalService {
 
 		Optional<Rental> rental = rentalRepository.findById(rentalId);
 		if (rental.isPresent())
-			return RentalMapper.toDTO(rental.get());
+			return modelMapper.map(rental, RentalDTO.class);
 
 		return null;
 	}
@@ -58,31 +63,33 @@ public class RentalServiceImpl implements RentalService {
 	@Override
 	public RentalDTO newRental(RentalDTO rentalDTO) {
 
-		Rental rental = RentalMapper.toEntity(rentalDTO);
+		Rental rental = modelMapper.map(rentalDTO, Rental.class);
+		
 		User user = userRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé"));
 
 		rental.setUser(user);
 
-		Rental savedRental = rentalRepository.save(rental);
+		rentalRepository.save(rental);
 
-		return RentalMapper.toDTO(savedRental);
+		return modelMapper.map(rental, RentalDTO.class); 
 	}
-
+	//Logger logger = LoggerFactory.getLogger(RentalServiceImpl.class);
 	@Override
 	public RentalDTO updateRental(Integer id, RentalDTO rentalDTO) {
 
 		User user = userRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé"));
 		
-		Rental existingRental = rentalRepository.findByIdAndUserId(id, user.getId());
+		Rental rental = rentalRepository.findByIdAndUserId(id, user.getId());
 		
-		Rental rental = RentalMapper.toEntity(rentalDTO);
+		modelMapper.map(rentalDTO, rental);
 		
-		rental.setUser(user);
-		rental.setMessages(existingRental.getMessages());
-
-		Rental savedRental = rentalRepository.save(rental);
-
-		return RentalMapper.toDTO(savedRental);
+		Rental updatedRental =  rentalRepository.save(rental);
+		//logger.info("Updated rental user id", rental.getUser().getId());
+		
+		RentalDTO rdto = RentalMapper.toDTO(updatedRental);
+		return rdto;
+		//TODO replace RentalMapper by modelMapper
+//		return modelMapper.map(updatedRental, RentalDTO.class);
 	}
 
 }
