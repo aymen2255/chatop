@@ -84,7 +84,7 @@ public class RentalServiceImpl implements RentalService {
 		modelMapper.map(rentalDTO, rental);
 		
 		Rental updatedRental =  rentalRepository.save(rental);
-		//logger.info("Updated rental user id", rental.getUser().getId());
+		//logger.info("Updated rental user id", rental.getUser().toString());
 		
 		RentalDTO rdto = RentalMapper.toDTO(updatedRental);
 		return rdto;
