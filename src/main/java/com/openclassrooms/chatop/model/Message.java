@@ -2,6 +2,8 @@ package com.openclassrooms.chatop.model;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,10 +38,12 @@ public class Message {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_id", nullable = false)
+	@JsonBackReference
 	private User user;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="rental_id", nullable = false)
+	@JsonBackReference
 	private Rental rental;	
 
 	@PrePersist

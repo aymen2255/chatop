@@ -55,11 +55,12 @@ public class User implements UserDetails{
 	@Column(name = "updated_at", columnDefinition = "TIMESTAMP")
 	private Timestamp updatedAt;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)	
+	@JsonManagedReference
 	List<Rental> rentals = new ArrayList<>();
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JsonManagedReference
 	List<Message> messages = new ArrayList<>();
 
 	@PrePersist

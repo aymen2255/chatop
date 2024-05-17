@@ -62,6 +62,16 @@ public class Rental {
 	@Column(name = "updated_at", columnDefinition = "TIMESTAMP")
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp updatedAt;
+	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "owner_id", nullable = false)
+	@JsonBackReference
+	private User user;
+
+	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	List<Message> messages = new ArrayList<>();
+
 
 	@PrePersist
 	public void onCreate() {
@@ -73,13 +83,5 @@ public class Rental {
 	public void onUpdate() {
 		updatedAt = new Timestamp(System.currentTimeMillis());
 	}
-
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "owner_id", nullable = false)
-	@JsonBackReference
-	private User user;
-
-	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	List<Message> messages = new ArrayList<>();
 
 }
