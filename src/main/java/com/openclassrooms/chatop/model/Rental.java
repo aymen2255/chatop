@@ -35,7 +35,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@DynamicUpdate
 public class Rental {
 
 	@Id
