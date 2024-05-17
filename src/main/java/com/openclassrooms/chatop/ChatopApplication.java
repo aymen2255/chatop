@@ -12,8 +12,4 @@ public class ChatopApplication {
 		SpringApplication.run(ChatopApplication.class, args);
 	}
 
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
 }

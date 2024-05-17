@@ -1,12 +1,14 @@
 package com.openclassrooms.chatop.model;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.openclassrooms.chatop.dto.RentalDTO;
 
 import jakarta.persistence.CascadeType;
@@ -38,7 +40,7 @@ public class Rental {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	@Column(name = "name", nullable = false, length = 255)
 	private String name;
@@ -53,10 +55,12 @@ public class Rental {
 	@Column(name = "description", length = 2000)
 	public String description;
 
-	@Column(name = "created_at", updatable = false)
+	@Column(name = "created_at", updatable = false, columnDefinition = "TIMESTAMP")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp createdAt;
 
-	@Column(name = "updated_at")
+	@Column(name = "updated_at", columnDefinition = "TIMESTAMP")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp updatedAt;
 
 	@PrePersist
@@ -77,7 +81,5 @@ public class Rental {
 
 	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Message> messages = new ArrayList<>();
-
-
 
 }

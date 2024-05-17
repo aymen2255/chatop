@@ -25,7 +25,7 @@ public class RentalDTO {
 	@NotNull
 	@NotEmpty
 	@NotBlank(message = "Name is required")
-	@Size(min = 8, message = "password should have at least 8 characters")	
+	@Size(min = 8, message = "name should have at least 8 characters")	
 	private String name;
 	
     @NotNull

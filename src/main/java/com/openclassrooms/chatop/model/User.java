@@ -2,7 +2,11 @@ package com.openclassrooms.chatop.model;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.openclassrooms.chatop.dto.UserDTO;
@@ -30,11 +34,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements UserDetails{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	@Column(name = "email", unique = true, nullable = false, length = 255)
 	private String email;
@@ -45,14 +49,14 @@ public class User {
 	@Column(name = "password", nullable = false, length = 255)
 	private String password;
 
-	@Column(name = "created_at", updatable = false)
+	@Column(name = "created_at", updatable = false, columnDefinition = "TIMESTAMP")
 	private Timestamp createdAt;
 
-	@Column(name = "updated_at")
+	@Column(name = "updated_at", columnDefinition = "TIMESTAMP")
 	private Timestamp updatedAt;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-	@JsonManagedReference
+	
 	List<Rental> rentals = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -69,9 +73,40 @@ public class User {
 		updatedAt = new Timestamp(System.currentTimeMillis());
 	}
 
-	public static User convertDTOToEntity(UserDTO userDTO) {
 
-		return User.builder().id(userDTO.getId()).email(userDTO.getEmail()).name(userDTO.getName())
-				.password(userDTO.getPassword()).build();
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

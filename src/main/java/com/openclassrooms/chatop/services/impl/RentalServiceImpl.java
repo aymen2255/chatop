@@ -29,7 +29,7 @@ public class RentalServiceImpl implements RentalService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -64,32 +64,34 @@ public class RentalServiceImpl implements RentalService {
 	public RentalDTO newRental(RentalDTO rentalDTO) {
 
 		Rental rental = modelMapper.map(rentalDTO, Rental.class);
-		
-		User user = userRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé"));
+
+		User user = userRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
 		rental.setUser(user);
 
 		rentalRepository.save(rental);
 
-		return modelMapper.map(rental, RentalDTO.class); 
+		return modelMapper.map(rental, RentalDTO.class);
 	}
-	//Logger logger = LoggerFactory.getLogger(RentalServiceImpl.class);
+
 	@Override
 	public RentalDTO updateRental(Integer id, RentalDTO rentalDTO) {
 
-		User user = userRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé"));
-		
-		Rental rental = rentalRepository.findByIdAndUserId(id, user.getId());
-		
+		User user = userRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+		Optional<Rental> rentalOptional = rentalRepository.findByIdAndUserId(id, user.getId());
+
+		if (!rentalOptional.isPresent()) {
+			new EntityNotFoundException("Rental not found");
+		}
+
+		Rental rental = rentalOptional.get();
+
 		modelMapper.map(rentalDTO, rental);
-		
-		Rental updatedRental =  rentalRepository.save(rental);
-		//logger.info("Updated rental user id", rental.getUser().toString());
-		
-		RentalDTO rdto = RentalMapper.toDTO(updatedRental);
-		return rdto;
-		//TODO replace RentalMapper by modelMapper
-//		return modelMapper.map(updatedRental, RentalDTO.class);
+
+		Rental updatedRental = rentalRepository.save(rental);
+
+		return modelMapper.map(updatedRental, RentalDTO.class);
 	}
 
 }

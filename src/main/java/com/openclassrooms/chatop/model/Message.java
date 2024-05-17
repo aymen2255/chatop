@@ -23,15 +23,15 @@ public class Message {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	@Column(name = "message", length = 2000)
 	private String message;
 
-	@Column(name = "created_at", updatable = false)
+	@Column(name = "created_at", updatable = false, columnDefinition = "TIMESTAMP")
 	private Timestamp createdAt;
 
-	@Column(name = "updated_at")
+	@Column(name = "updated_at", columnDefinition = "TIMESTAMP")
 	private Timestamp updatedAt;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
