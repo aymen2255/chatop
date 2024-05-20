@@ -10,12 +10,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.openclassrooms.chatop.services.JWTService;
+import com.openclassrooms.chatop.services.impl.UserServiceImpl;
 
 import java.io.IOException;
 
@@ -26,7 +26,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     
     private final JWTService jwtService;
     
-    private final UserDetailsService userDetailsService;
+    private final UserServiceImpl userServiceImpl;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -51,7 +51,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         userEmail = jwtService.extractUsername(jwtToken);
         
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+            UserDetails userDetails = userServiceImpl.loadUserByUsername(userEmail);
 
             if (jwtService.isTokenValid(jwtToken, userDetails)) {
                 
