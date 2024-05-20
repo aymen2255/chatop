@@ -9,6 +9,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.chatop.dto.RentalDTO;
 import com.openclassrooms.chatop.dto.RentalsDTO;
 import com.openclassrooms.chatop.services.RentalService;
+import com.openclassrooms.chatop.services.StorageService;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -29,6 +31,9 @@ public class RentalController {
 
 	@Autowired
 	private RentalService rentalService;
+	
+	@Autowired
+	private StorageService storageService;
 
 	@GetMapping("/rentals")
 	public ResponseEntity<RentalsDTO> getAllRentals() {
@@ -41,8 +46,11 @@ public class RentalController {
 	}
 
 	@PostMapping("/rentals")
-	public ResponseEntity<RentalDTO> createRental(@RequestBody @Valid RentalDTO rentalDTO) {
+	public ResponseEntity<RentalDTO> createRental(@ModelAttribute @Valid RentalDTO rentalDTO) {
+
 		try {
+			
+			storageService.savePicture(rentalDTO.getPicture());
 			RentalDTO createdRental = rentalService.newRental(rentalDTO);
 
 			return ResponseEntity.status(HttpStatus.CREATED).body(createdRental);
@@ -61,6 +69,7 @@ public class RentalController {
 	public ResponseEntity<RentalDTO> updateRental(@RequestBody @Valid RentalDTO rentalDTO, @PathVariable Integer id) {
 
 		try {
+			
 			RentalDTO createdRental = rentalService.updateRental(id, rentalDTO);
 
 			return ResponseEntity.status(HttpStatus.CREATED).body(createdRental);

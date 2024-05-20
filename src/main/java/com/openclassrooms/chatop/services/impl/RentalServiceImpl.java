@@ -3,11 +3,9 @@ package com.openclassrooms.chatop.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.openclassrooms.chatop.dto.RentalDTO;
 import com.openclassrooms.chatop.dto.RentalsDTO;
 import com.openclassrooms.chatop.model.Rental;
@@ -15,12 +13,11 @@ import com.openclassrooms.chatop.model.User;
 import com.openclassrooms.chatop.repository.RentalRepository;
 import com.openclassrooms.chatop.repository.UserRepository;
 import com.openclassrooms.chatop.services.RentalService;
-
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class RentalServiceImpl implements RentalService {
-
+public class RentalServiceImpl implements RentalService {	
+	
 	@Autowired
 	private RentalRepository rentalRepository;
 
@@ -56,13 +53,13 @@ public class RentalServiceImpl implements RentalService {
 
 		return null;
 	}
-
+	
 	@Override
 	public RentalDTO newRental(RentalDTO rentalDTO) {
-
+		
 		Rental rental = modelMapper.map(rentalDTO, Rental.class);
 
-		User user = userRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("User not found"));
+		User user = userRepository.findById(13).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
 		rental.setUser(user);
 

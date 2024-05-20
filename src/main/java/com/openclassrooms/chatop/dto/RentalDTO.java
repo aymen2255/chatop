@@ -2,6 +2,8 @@ package com.openclassrooms.chatop.dto;
 
 import java.sql.Timestamp;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.NotBlank;
@@ -36,7 +38,7 @@ public class RentalDTO {
     @Positive(message = "Price must be greater than zero")
 	private Double price;
     
-	public String picture;
+	private MultipartFile picture;
 	
 	public String description;
 
