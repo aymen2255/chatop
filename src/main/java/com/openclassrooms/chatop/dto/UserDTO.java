@@ -28,23 +28,20 @@ public class UserDTO {
 	@NotBlank(message = "Name is required")
 	private String name;
 	
-	@NotEmpty
-	@NotBlank(message = "password is required")
-	private String password;
-	
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy/MM/dd")
 	private Timestamp createdAt;
 	
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy/MM/dd")
 	private Timestamp updatedAt;
 
 	public static UserDTO convertUserToDTO(User user) {
 
 		return UserDTO.builder()
 				.id(user.getId())
-				.email(user.getEmail())
 				.name(user.getName())
-				.password(user.getPassword())
+				.email(user.getEmail())				
+				.createdAt(user.getCreatedAt())
+				.updatedAt(user.getUpdatedAt())
 				.build();
 	}
 
