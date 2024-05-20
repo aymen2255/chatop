@@ -8,5 +8,5 @@ import com.openclassrooms.chatop.dto.UserDTO;
 public interface UserService {
 	
 	UserDTO getUserById(Integer userId);
-	
+	String getLoggedInUsername();
 }
