@@ -6,5 +6,7 @@ import com.openclassrooms.chatop.dto.UserDTO;
 
 @Service
 public interface UserService {
+	
 	UserDTO getUserById(Integer userId);
+	
 }
