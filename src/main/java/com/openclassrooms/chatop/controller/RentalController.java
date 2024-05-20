@@ -18,10 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.chatop.dto.RentalDTO;
 import com.openclassrooms.chatop.dto.RentalsDTO;
-import com.openclassrooms.chatop.model.Rental;
-import com.openclassrooms.chatop.model.User;
-import com.openclassrooms.chatop.repository.RentalRepository;
-import com.openclassrooms.chatop.repository.UserRepository;
 import com.openclassrooms.chatop.services.RentalService;
 
 import jakarta.persistence.EntityNotFoundException;
