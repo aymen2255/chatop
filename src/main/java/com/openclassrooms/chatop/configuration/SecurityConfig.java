@@ -42,10 +42,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> 
                 request
-                //.requestMatchers("/api/auth**","api/auth**","localhost:9000/api/auth/register").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                .requestMatchers("/api/auth**").permitAll()
+                .requestMatchers("/api/auth/register","/api/auth/login").permitAll()
                 .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

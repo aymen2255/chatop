@@ -58,4 +58,14 @@ public class JWTService {
     public boolean isTokenExpired(String token){
         return extractClaims(token, Claims::getExpiration).before(new Date());
     }
+    
+    public String getTokenFromAuthorizationHeader(String authorization) {
+    	
+        if (authorization == null || authorization.isBlank() || !authorization.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Le format de l'en-tête d'autorisation est incorrect");
+        }
+
+        return authorization.substring(7);
+    }
+    
 }
