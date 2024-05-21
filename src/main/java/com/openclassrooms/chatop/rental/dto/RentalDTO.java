@@ -1,7 +1,6 @@
 package com.openclassrooms.chatop.rental.dto;
 
 import java.sql.Timestamp;
-import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;

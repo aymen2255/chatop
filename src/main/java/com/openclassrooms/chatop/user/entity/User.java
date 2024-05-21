@@ -36,6 +36,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class User implements UserDetails{
 
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -57,10 +59,12 @@ public class User implements UserDetails{
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)	
 	@JsonManagedReference
+	@Builder.Default
 	List<Rental> rentals = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	@JsonManagedReference
+	@Builder.Default
 	List<Message> messages = new ArrayList<>();
 
 	@PrePersist

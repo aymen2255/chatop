@@ -68,6 +68,7 @@ public class Rental {
 	private User user;
 
 	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@Builder.Default
 	List<Message> messages = new ArrayList<>();
 
 
