@@ -17,12 +17,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.openclassrooms.chatop.auth.JWTAuthFilter;
+import com.openclassrooms.chatop.user.UserServiceImpl;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-
-
-
-import com.openclassrooms.chatop.services.impl.UserServiceImpl;
 
 
 @Configuration

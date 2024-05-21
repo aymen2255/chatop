@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.configuration;
+package com.openclassrooms.chatop.auth;
 
 
 import jakarta.servlet.FilterChain;
@@ -14,8 +14,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.openclassrooms.chatop.services.JWTService;
-import com.openclassrooms.chatop.services.impl.UserServiceImpl;
+import com.openclassrooms.chatop.user.UserServiceImpl;
 
 import java.io.IOException;
 

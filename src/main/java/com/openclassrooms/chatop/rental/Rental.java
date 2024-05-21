@@ -1,14 +1,16 @@
-package com.openclassrooms.chatop.model;
+package com.openclassrooms.chatop.rental;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.annotations.DynamicUpdate;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.openclassrooms.chatop.message.Message;
+import com.openclassrooms.chatop.user.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,6 +19,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -28,38 +32,47 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "users")
+@Table(name = "rentals")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements UserDetails{
+@DynamicUpdate
+public class Rental {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "email", unique = true, nullable = false, length = 255)
-	private String email;
-
 	@Column(name = "name", nullable = false, length = 255)
 	private String name;
 
-	@Column(name = "password", nullable = false, length = 255)
-	private String password;
+	private Double surface;
+
+	private Double price;
+
+	@Column(name = "picture", length = 255)
+	public String picture;
+
+	@Column(name = "description", length = 2000)
+	public String description;
 
 	@Column(name = "created_at", updatable = false, columnDefinition = "TIMESTAMP")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp createdAt;
 
 	@Column(name = "updated_at", columnDefinition = "TIMESTAMP")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp updatedAt;
+	
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)	
-	@JsonManagedReference
-	List<Rental> rentals = new ArrayList<>();
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "owner_id", nullable = false)
+	@JsonBackReference
+	private User user;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	@JsonManagedReference
+	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<Message> messages = new ArrayList<>();
+
 
 	@PrePersist
 	public void onCreate() {
@@ -72,39 +85,4 @@ public class User implements UserDetails{
 		updatedAt = new Timestamp(System.currentTimeMillis());
 	}
 
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
-		return null;
-	}
-
-	@Override
-	public String getUsername() {
-		
-		return email;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
 }

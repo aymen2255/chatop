@@ -1,6 +1,9 @@
-package com.openclassrooms.chatop.dto;
+package com.openclassrooms.chatop.message;
 
 import java.sql.Timestamp;
+
+import com.openclassrooms.chatop.rental.RentalDTO;
+import com.openclassrooms.chatop.user.UserDTO;
 
 public class MessageDTO {
 

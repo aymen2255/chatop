@@ -1,10 +1,9 @@
-package com.openclassrooms.chatop.services.impl;
+package com.openclassrooms.chatop.storage;
 
 import java.io.File;
 import java.io.IOException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import com.openclassrooms.chatop.services.StorageService;
 
 @Service
 public class StorageServiceImpl implements StorageService {

@@ -1,8 +1,10 @@
-package com.openclassrooms.chatop.model;
+package com.openclassrooms.chatop.message;
 
 import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.openclassrooms.chatop.rental.Rental;
+import com.openclassrooms.chatop.user.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

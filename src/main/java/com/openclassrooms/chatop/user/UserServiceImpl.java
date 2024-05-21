@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.services.impl;
+package com.openclassrooms.chatop.user;
 
 import java.util.Optional;
 
@@ -10,11 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import com.openclassrooms.chatop.dto.UserDTO;
-import com.openclassrooms.chatop.model.User;
-import com.openclassrooms.chatop.repository.UserRepository;
-import com.openclassrooms.chatop.services.UserService;
 
 import jakarta.persistence.EntityNotFoundException;
 

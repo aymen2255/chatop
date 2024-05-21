@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.services;
+package com.openclassrooms.chatop.storage;
 
 import java.io.IOException;
 

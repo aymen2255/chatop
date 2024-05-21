@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.controller;
+package com.openclassrooms.chatop.rental;
 
 import java.util.HashMap;
 
@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.openclassrooms.chatop.dto.RentalDTO;
-import com.openclassrooms.chatop.dto.RentalsDTO;
-import com.openclassrooms.chatop.services.RentalService;
-import com.openclassrooms.chatop.services.StorageService;
+import com.openclassrooms.chatop.storage.StorageService;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;

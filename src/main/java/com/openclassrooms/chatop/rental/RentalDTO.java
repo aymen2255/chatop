@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.dto;
+package com.openclassrooms.chatop.rental;
 
 import java.sql.Timestamp;
 

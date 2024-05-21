@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.openclassrooms.chatop.dto.UserDTO;
-import com.openclassrooms.chatop.services.JWTService;
-import com.openclassrooms.chatop.services.UserService;
+import com.openclassrooms.chatop.user.UserDTO;
+import com.openclassrooms.chatop.user.UserService;
 
 import jakarta.validation.Valid;
 

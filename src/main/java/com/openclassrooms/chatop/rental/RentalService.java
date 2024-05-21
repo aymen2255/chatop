@@ -1,8 +1,4 @@
-package com.openclassrooms.chatop.services;
-
-import com.openclassrooms.chatop.dto.RentalDTO;
-import com.openclassrooms.chatop.dto.RentalsDTO;
-
+package com.openclassrooms.chatop.rental;
 
 public interface RentalService {
 
