@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.auth;
+package com.openclassrooms.chatop.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -11,13 +11,18 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthentificationRequest {
+public class RegisterRequest {
+
+	@NotEmpty
+	@NotBlank(message = "Name is required")
+	private String name;
 
 	@NotEmpty
 	@NotBlank(message = "Email is required")
 	private String email;
-	
+
 	@NotEmpty
 	@NotBlank(message = "password is required")
-	String password;
+	private String password;
+
 }

@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.openclassrooms.chatop.auth.JWTAuthFilter;
+import com.openclassrooms.chatop.auth.filter.JWTAuthFilter;
 import com.openclassrooms.chatop.user.service.UserServiceImpl;
 
 import org.springframework.http.HttpStatus;

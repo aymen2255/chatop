@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.auth;
+package com.openclassrooms.chatop.auth.service;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;

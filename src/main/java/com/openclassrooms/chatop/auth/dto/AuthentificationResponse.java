@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.auth;
+package com.openclassrooms.chatop.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

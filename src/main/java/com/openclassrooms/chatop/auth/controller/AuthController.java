@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.auth;
+package com.openclassrooms.chatop.auth.controller;
 
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.openclassrooms.chatop.auth.dto.AuthentificationRequest;
+import com.openclassrooms.chatop.auth.dto.AuthentificationResponse;
+import com.openclassrooms.chatop.auth.dto.RegisterRequest;
+import com.openclassrooms.chatop.auth.service.AuthentificationService;
+
 import jakarta.validation.Valid;
 
 @RestController

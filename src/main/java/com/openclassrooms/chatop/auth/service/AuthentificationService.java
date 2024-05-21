@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.auth;
+package com.openclassrooms.chatop.auth.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -7,6 +7,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.openclassrooms.chatop.auth.dto.AuthentificationRequest;
+import com.openclassrooms.chatop.auth.dto.AuthentificationResponse;
+import com.openclassrooms.chatop.auth.dto.RegisterRequest;
 import com.openclassrooms.chatop.user.entity.User;
 import com.openclassrooms.chatop.user.repository.UserRepository;
 
