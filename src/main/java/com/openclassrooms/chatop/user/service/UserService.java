@@ -8,10 +8,8 @@ import com.openclassrooms.chatop.user.entity.User;
 
 @Service
 public interface UserService {
-	
-	UserDTO getUserById(Integer userId);
-	
-	String getLoggedInUsername();
-	
+
 	User getUser() throws UsernameNotFoundException;
+
+	UserDTO getProfile();
 }

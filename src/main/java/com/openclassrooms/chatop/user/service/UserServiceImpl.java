@@ -1,16 +1,13 @@
 package com.openclassrooms.chatop.user.service;
 
-import java.util.Optional;
-
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import com.openclassrooms.chatop.user.dto.UserDTO;
 import com.openclassrooms.chatop.user.entity.User;
 import com.openclassrooms.chatop.user.repository.UserRepository;
@@ -22,15 +19,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
-
-	@Override
-	public UserDTO getUserById(Integer userId) {
-		Optional<User> user = userRepository.findById(userId);
-		if (user.isPresent())
-			return UserDTO.convertUserToDTO(user.get());
-
-		return null;
-	}
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -38,15 +29,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		UserDetails user = userRepository.findByEmail(email)
 				.orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé"));
 		return user;
-	}
-
-	public String getLoggedInUsername() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			return authentication.getName();
-		} else {
-			throw new RuntimeException("No User");
-		}
 	}
 
 	@Override
@@ -59,5 +41,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		 
 		return (User) authentication.getPrincipal();
 	}
+
+	@Override
+	public UserDTO getProfile() {
+		User user = getUser();
+
+		UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+
+		return userDTO;
+	}	
 
 }
