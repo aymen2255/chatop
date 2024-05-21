@@ -1,13 +1,15 @@
 package com.openclassrooms.chatop.rental;
 
+import com.openclassrooms.chatop.jsonResponse.JsonResponse;
+
 public interface RentalService {
 
 	RentalsDTO getAllRentals();
 
 	RentalDTO getRentalById(Integer rentalId);
 
-	RentalDTO newRental(RentalDTO rentalDTO);
+	JsonResponse newRental(CreateRentalDTO rentalDTO);
 
-	RentalDTO updateRental(Integer id, RentalDTO rentalDTO);
+	JsonResponse updateRental(Integer id, UpdateRentalDTO rentalDTO);
 
 }

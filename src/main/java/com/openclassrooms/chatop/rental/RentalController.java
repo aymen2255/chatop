@@ -1,7 +1,6 @@
 package com.openclassrooms.chatop.rental;
 
 import java.util.HashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.openclassrooms.chatop.jsonResponse.JsonResponse;
 import com.openclassrooms.chatop.storage.StorageService;
-
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
@@ -43,15 +40,15 @@ public class RentalController {
 	}
 
 	@PostMapping("/rentals")
-	public ResponseEntity<RentalDTO> createRental(@Valid @ModelAttribute  RentalDTO rentalDTO) {
+	public ResponseEntity<JsonResponse> createRental(@Valid @ModelAttribute CreateRentalDTO rentalDTO) {
 
 		try {
 			
 			storageService.savePicture(rentalDTO.getPicture());
 			
-			RentalDTO createdRental = rentalService.newRental(rentalDTO);
+			JsonResponse response = rentalService.newRental(rentalDTO);
 
-			return ResponseEntity.status(HttpStatus.CREATED).body(createdRental);
+			return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
 		} catch (EntityNotFoundException e) {
 
@@ -64,11 +61,11 @@ public class RentalController {
 	}
 
 	@PutMapping("/rentals/{id}")
-	public ResponseEntity<RentalDTO> updateRental(@ModelAttribute @Valid RentalDTO rentalDTO, @PathVariable Integer id) {
+	public ResponseEntity<JsonResponse> updateRental(@Valid @ModelAttribute UpdateRentalDTO rentalDTO, @PathVariable Integer id) {
 
 		try {
 			
-			RentalDTO createdRental = rentalService.updateRental(id, rentalDTO);
+			JsonResponse createdRental = rentalService.updateRental(id, rentalDTO);
 
 			return ResponseEntity.status(HttpStatus.CREATED).body(createdRental);
 

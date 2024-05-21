@@ -6,11 +6,9 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.openclassrooms.chatop.user.User;
-import com.openclassrooms.chatop.user.UserRepository;
+import com.openclassrooms.chatop.jsonResponse.JsonResponse;
+import com.openclassrooms.chatop.jsonResponse.JsonResponseImpl;
 import com.openclassrooms.chatop.user.UserService;
-
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -18,10 +16,7 @@ public class RentalServiceImpl implements RentalService {
 
 	@Autowired
 	private RentalRepository rentalRepository;
-
-	@Autowired
-	private UserRepository userRepository;
-
+	
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -56,22 +51,18 @@ public class RentalServiceImpl implements RentalService {
 	}
 
 	@Override
-	public RentalDTO newRental(RentalDTO rentalDTO) {
+	public JsonResponse newRental(CreateRentalDTO rentalDTO) {
 
 		Rental rental = modelMapper.map(rentalDTO, Rental.class);
 		rental.setUser(userService.getUser());
 
-		Rental savedRental = rentalRepository.save(rental);
+		rentalRepository.save(rental);
 
-		RentalDTO savedRentalDTO = modelMapper.map(savedRental, RentalDTO.class);
-		savedRentalDTO.setOwner_id(userService.getUser().getId());
-
-		return savedRentalDTO;
+		return JsonResponseImpl.builder().message("Rental created !").build();
 	}
 
 	@Override
-	public RentalDTO updateRental(Integer id, RentalDTO rentalDTO) {
-		
+	public JsonResponse updateRental(Integer id, UpdateRentalDTO rentalDTO) {		
 		
 		Rental rental = rentalRepository.findByIdAndUserId(id, userService.getUser().getId());	
 
@@ -81,12 +72,9 @@ public class RentalServiceImpl implements RentalService {
 		modelMapper.map(rentalDTO, rental);
 		rental.setUser(userService.getUser());
 
-		Rental updatedRental = rentalRepository.save(rental);
-		
-		RentalDTO updatedRentalDTO = modelMapper.map(updatedRental, RentalDTO.class);
-		updatedRentalDTO.setOwner_id(userService.getUser().getId());
+		rentalRepository.save(rental);
 
-		return updatedRentalDTO;
+		return JsonResponseImpl.builder().message("Rental updated !").build();
 	}
 
 }
