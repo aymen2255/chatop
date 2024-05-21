@@ -23,7 +23,7 @@ public class RentalServiceImpl implements RentalService {
 
 	@Autowired
 	private RentalRepository rentalRepository;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -38,7 +38,9 @@ public class RentalServiceImpl implements RentalService {
 		List<RentalDTO> listRentalDTO = new ArrayList<>(rentals.size());
 
 		for (Rental rental : rentals) {
-			listRentalDTO.add(modelMapper.map(rental, RentalDTO.class));
+			RentalDTO rentalDTO = modelMapper.map(rental, RentalDTO.class);
+			rentalDTO.setOwner_id(userService.getUser().getId());
+			listRentalDTO.add(rentalDTO);
 		}
 
 		RentalsDTO rentalsDTO = new RentalsDTO();
@@ -51,8 +53,12 @@ public class RentalServiceImpl implements RentalService {
 	public RentalDTO getRentalById(final Integer rentalId) {
 
 		Optional<Rental> rental = rentalRepository.findById(rentalId);
-		if (rental.isPresent())
-			return modelMapper.map(rental, RentalDTO.class);
+		
+		if (rental.isPresent()) {
+			RentalDTO rentalDTO = modelMapper.map(rental, RentalDTO.class);
+			rentalDTO.setOwner_id(userService.getUser().getId());
+			return rentalDTO;
+		}
 
 		return null;
 	}
@@ -69,9 +75,9 @@ public class RentalServiceImpl implements RentalService {
 	}
 
 	@Override
-	public JsonResponse updateRental(Integer id, UpdateRentalDTO rentalDTO) {		
-		
-		Rental rental = rentalRepository.findByIdAndUserId(id, userService.getUser().getId());	
+	public JsonResponse updateRental(Integer id, UpdateRentalDTO rentalDTO) {
+
+		Rental rental = rentalRepository.findByIdAndUserId(id, userService.getUser().getId());
 
 		if (rental == null)
 			new EntityNotFoundException("Rental not found");

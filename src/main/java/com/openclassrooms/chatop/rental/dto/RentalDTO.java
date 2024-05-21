@@ -23,7 +23,7 @@ public class RentalDTO {
 
 	private Double price;
 
-	private MultipartFile picture;
+	private String picture;
 
 	private String description;
 	
