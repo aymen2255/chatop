@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.rental;
+package com.openclassrooms.chatop.rental.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 import jakarta.validation.constraints.NotBlank;

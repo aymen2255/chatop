@@ -1,8 +1,9 @@
-package com.openclassrooms.chatop.user;
+package com.openclassrooms.chatop.user.dto;
 
 import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.openclassrooms.chatop.user.entity.User;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

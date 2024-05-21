@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.rental;
+package com.openclassrooms.chatop.rental.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

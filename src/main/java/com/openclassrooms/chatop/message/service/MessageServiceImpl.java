@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.message;
+package com.openclassrooms.chatop.message.service;
 
 public class MessageServiceImpl implements MessageService{
 

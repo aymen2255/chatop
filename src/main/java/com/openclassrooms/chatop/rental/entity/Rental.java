@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.rental;
+package com.openclassrooms.chatop.rental.entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -6,8 +6,9 @@ import java.util.List;
 import org.hibernate.annotations.DynamicUpdate;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.openclassrooms.chatop.message.Message;
-import com.openclassrooms.chatop.user.User;
+import com.openclassrooms.chatop.message.entity.Message;
+import com.openclassrooms.chatop.user.entity.User;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

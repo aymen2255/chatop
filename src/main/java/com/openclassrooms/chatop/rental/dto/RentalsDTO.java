@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.rental;
+package com.openclassrooms.chatop.rental.dto;
 
 import java.util.List;
 

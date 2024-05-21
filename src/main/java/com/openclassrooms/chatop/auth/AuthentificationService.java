@@ -7,8 +7,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.openclassrooms.chatop.user.User;
-import com.openclassrooms.chatop.user.UserRepository;
+import com.openclassrooms.chatop.user.entity.User;
+import com.openclassrooms.chatop.user.repository.UserRepository;
 
 @Service
 public class AuthentificationService {

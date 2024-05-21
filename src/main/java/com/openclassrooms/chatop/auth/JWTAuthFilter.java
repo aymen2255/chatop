@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.openclassrooms.chatop.user.UserServiceImpl;
+import com.openclassrooms.chatop.user.service.UserServiceImpl;
 
 import java.io.IOException;
 

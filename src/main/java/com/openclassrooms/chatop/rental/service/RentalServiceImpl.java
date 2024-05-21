@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.rental;
+package com.openclassrooms.chatop.rental.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.openclassrooms.chatop.jsonResponse.JsonResponse;
 import com.openclassrooms.chatop.jsonResponse.JsonResponseImpl;
-import com.openclassrooms.chatop.user.UserService;
+import com.openclassrooms.chatop.rental.dto.CreateRentalDTO;
+import com.openclassrooms.chatop.rental.dto.RentalDTO;
+import com.openclassrooms.chatop.rental.dto.RentalsDTO;
+import com.openclassrooms.chatop.rental.dto.UpdateRentalDTO;
+import com.openclassrooms.chatop.rental.entity.Rental;
+import com.openclassrooms.chatop.rental.repository.RentalRepository;
+import com.openclassrooms.chatop.user.service.UserService;
+
 import jakarta.persistence.EntityNotFoundException;
 
 @Service

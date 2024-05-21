@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.user;
+package com.openclassrooms.chatop.user.entity;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.openclassrooms.chatop.message.Message;
-import com.openclassrooms.chatop.rental.Rental;
+import com.openclassrooms.chatop.message.entity.Message;
+import com.openclassrooms.chatop.rental.entity.Rental;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
