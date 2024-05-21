@@ -18,8 +18,8 @@ import com.openclassrooms.chatop.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class RentalServiceImpl implements RentalService {	
-	
+public class RentalServiceImpl implements RentalService {
+
 	@Autowired
 	private RentalRepository rentalRepository;
 
@@ -28,7 +28,7 @@ public class RentalServiceImpl implements RentalService {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -58,37 +58,39 @@ public class RentalServiceImpl implements RentalService {
 
 		return null;
 	}
-	
+
 	@Override
 	public RentalDTO newRental(RentalDTO rentalDTO) {
-		
+
 		Rental rental = modelMapper.map(rentalDTO, Rental.class);
-		
 		rental.setUser(userService.getUser());
 
-		rentalRepository.save(rental);
+		Rental savedRental = rentalRepository.save(rental);
 
-		return modelMapper.map(rental, RentalDTO.class);
+		RentalDTO savedRentalDTO = modelMapper.map(savedRental, RentalDTO.class);
+		savedRentalDTO.setOwner_id(userService.getUser().getId());
+
+		return savedRentalDTO;
 	}
 
 	@Override
 	public RentalDTO updateRental(Integer id, RentalDTO rentalDTO) {
+		
+		
+		Rental rental = rentalRepository.findByIdAndUserId(id, userService.getUser().getId());	
 
-		User user = userRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("User not found"));
-
-		Optional<Rental> rentalOptional = rentalRepository.findByIdAndUserId(id, user.getId());
-
-		if (!rentalOptional.isPresent()) {
+		if (rental == null)
 			new EntityNotFoundException("Rental not found");
-		}
-
-		Rental rental = rentalOptional.get();
 
 		modelMapper.map(rentalDTO, rental);
+		rental.setUser(userService.getUser());
 
 		Rental updatedRental = rentalRepository.save(rental);
+		
+		RentalDTO updatedRentalDTO = modelMapper.map(updatedRental, RentalDTO.class);
+		updatedRentalDTO.setOwner_id(userService.getUser().getId());
 
-		return modelMapper.map(updatedRental, RentalDTO.class);
+		return updatedRentalDTO;
 	}
 
 }

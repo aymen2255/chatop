@@ -67,7 +67,7 @@ public class RentalController {
 	}
 
 	@PutMapping("/rentals/{id}")
-	public ResponseEntity<RentalDTO> updateRental(@RequestBody @Valid RentalDTO rentalDTO, @PathVariable Integer id) {
+	public ResponseEntity<RentalDTO> updateRental(@ModelAttribute @Valid RentalDTO rentalDTO, @PathVariable Integer id) {
 
 		try {
 			

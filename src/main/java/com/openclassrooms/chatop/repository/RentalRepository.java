@@ -11,6 +11,6 @@ import com.openclassrooms.chatop.model.Rental;
 @Repository
 public interface RentalRepository extends JpaRepository<Rental, Integer> {
 
-	Optional<Rental> findByIdAndUserId(Integer rentalId, Integer userId);
+	Rental findByIdAndUserId(Integer rentalId, Integer userId);
 
 }
