@@ -46,11 +46,12 @@ public class RentalController {
 	}
 
 	@PostMapping("/rentals")
-	public ResponseEntity<RentalDTO> createRental(@ModelAttribute @Valid RentalDTO rentalDTO) {
+	public ResponseEntity<RentalDTO> createRental(@Valid @ModelAttribute  RentalDTO rentalDTO) {
 
 		try {
 			
 			storageService.savePicture(rentalDTO.getPicture());
+			
 			RentalDTO createdRental = rentalService.newRental(rentalDTO);
 
 			return ResponseEntity.status(HttpStatus.CREATED).body(createdRental);

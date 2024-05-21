@@ -13,6 +13,8 @@ import com.openclassrooms.chatop.model.User;
 import com.openclassrooms.chatop.repository.RentalRepository;
 import com.openclassrooms.chatop.repository.UserRepository;
 import com.openclassrooms.chatop.services.RentalService;
+import com.openclassrooms.chatop.services.UserService;
+
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -26,6 +28,9 @@ public class RentalServiceImpl implements RentalService {
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public RentalsDTO getAllRentals() {
@@ -58,10 +63,8 @@ public class RentalServiceImpl implements RentalService {
 	public RentalDTO newRental(RentalDTO rentalDTO) {
 		
 		Rental rental = modelMapper.map(rentalDTO, Rental.class);
-
-		User user = userRepository.findById(13).orElseThrow(() -> new EntityNotFoundException("User not found"));
-
-		rental.setUser(user);
+		
+		rental.setUser(userService.getUser());
 
 		rentalRepository.save(rental);
 

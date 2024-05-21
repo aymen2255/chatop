@@ -48,6 +48,8 @@ public class RentalDTO {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Timestamp updatedAt;
 
+	//TODO où dois je mettre la contrainte not null pour owner id
+//	@NotNull
 	private Integer owner_id;
 
 }

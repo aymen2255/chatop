@@ -35,18 +35,30 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		
+
 		UserDetails user = userRepository.findByEmail(email)
 				.orElseThrow(() -> new EntityNotFoundException("Utilisateur non trouvé"));
 		return user;
 	}
-	
+
 	public String getLoggedInUsername() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            return authentication.getName();
-        } else {
-            throw new RuntimeException("No User");
-        }
-    }
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			return authentication.getName();
+		} else {
+			throw new RuntimeException("No User");
+		}
+	}
+
+	@Override
+	public User getUser() throws UsernameNotFoundException {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		 if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+	            throw new UsernameNotFoundException("No logged in user found");
+	        }
+		 
+		return (User) authentication.getPrincipal();
+	}
+
 }
