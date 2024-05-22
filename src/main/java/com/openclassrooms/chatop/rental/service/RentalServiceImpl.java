@@ -14,6 +14,7 @@ import com.openclassrooms.chatop.rental.dto.RentalsDTO;
 import com.openclassrooms.chatop.rental.dto.UpdateRentalDTO;
 import com.openclassrooms.chatop.rental.entity.Rental;
 import com.openclassrooms.chatop.rental.repository.RentalRepository;
+import com.openclassrooms.chatop.storage.service.StorageService;
 import com.openclassrooms.chatop.user.service.UserService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -29,6 +30,9 @@ public class RentalServiceImpl implements RentalService {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private StorageService storageService;
 
 	@Override
 	public RentalsDTO getAllRentals() {
@@ -64,10 +68,13 @@ public class RentalServiceImpl implements RentalService {
 	}
 
 	@Override
-	public JsonResponse newRental(CreateRentalDTO rentalDTO) {
-
+	public JsonResponse newRental(CreateRentalDTO rentalDTO) {	
+		
 		Rental rental = modelMapper.map(rentalDTO, Rental.class);
 		rental.setUser(userService.getUser());
+		
+		String imageUrl = storageService.store(rentalDTO.getPicture());
+		rental.setPicture(imageUrl);
 
 		rentalRepository.save(rental);
 

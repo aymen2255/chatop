@@ -20,8 +20,6 @@ import com.openclassrooms.chatop.rental.dto.RentalDTO;
 import com.openclassrooms.chatop.rental.dto.RentalsDTO;
 import com.openclassrooms.chatop.rental.dto.UpdateRentalDTO;
 import com.openclassrooms.chatop.rental.service.RentalService;
-import com.openclassrooms.chatop.storage.service.StorageService;
-
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
@@ -31,9 +29,6 @@ public class RentalController {
 
 	@Autowired
 	private RentalService rentalService;
-	
-	@Autowired
-	private StorageService storageService;
 
 	@GetMapping("/rentals")
 	public ResponseEntity<RentalsDTO> getAllRentals() {
@@ -49,8 +44,6 @@ public class RentalController {
 	public ResponseEntity<JsonResponse> createRental(@Valid @ModelAttribute CreateRentalDTO rentalDTO) {
 
 		try {
-			
-			storageService.savePicture(rentalDTO.getPicture());
 			
 			JsonResponse response = rentalService.newRental(rentalDTO);
 
