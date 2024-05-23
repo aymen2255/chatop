@@ -17,9 +17,15 @@ import com.openclassrooms.chatop.jsonResponse.JsonResponse;
 import com.openclassrooms.chatop.message.dto.CreateMessageDTO;
 import com.openclassrooms.chatop.message.service.MessageService;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
+@Tag(name = "Message")
+@ApiResponse(description = "Success", responseCode = "200")
+@ApiResponse(description = "Unauthorized", responseCode = "401")
+@ApiResponse(description = "Invalid token", responseCode = "403")
 @RestController
 @RequestMapping("/api")
 public class MessageController {

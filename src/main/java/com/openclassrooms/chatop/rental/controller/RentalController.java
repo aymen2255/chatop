@@ -20,9 +20,17 @@ import com.openclassrooms.chatop.rental.dto.RentalDTO;
 import com.openclassrooms.chatop.rental.dto.RentalsDTO;
 import com.openclassrooms.chatop.rental.dto.UpdateRentalDTO;
 import com.openclassrooms.chatop.rental.service.RentalService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
+@Tag(name = "Rental")
+@ApiResponse(description = "Success", responseCode = "200")
+@ApiResponse(description = "Unauthorized", responseCode = "401")
+@ApiResponse(description = "Invalid token", responseCode = "403")
 @RestController
 @RequestMapping("/api")
 public class RentalController {
@@ -30,6 +38,7 @@ public class RentalController {
 	@Autowired
 	private RentalService rentalService;
 
+	@Operation(description = "Get all rentals")
 	@GetMapping("/rentals")
 	public ResponseEntity<RentalsDTO> getAllRentals() {
 		return ResponseEntity.ok(rentalService.getAllRentals());
@@ -44,7 +53,7 @@ public class RentalController {
 	public ResponseEntity<JsonResponse> createRental(@Valid @ModelAttribute CreateRentalDTO rentalDTO) {
 
 		try {
-			
+
 			JsonResponse response = rentalService.newRental(rentalDTO);
 
 			return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -60,10 +69,11 @@ public class RentalController {
 	}
 
 	@PutMapping("/rentals/{id}")
-	public ResponseEntity<JsonResponse> updateRental(@Valid @ModelAttribute UpdateRentalDTO rentalDTO, @PathVariable Integer id) {
+	public ResponseEntity<JsonResponse> updateRental(@Valid @ModelAttribute UpdateRentalDTO rentalDTO,
+			@PathVariable Integer id) {
 
 		try {
-			
+
 			JsonResponse createdRental = rentalService.updateRental(id, rentalDTO);
 
 			return ResponseEntity.status(HttpStatus.CREATED).body(createdRental);

@@ -9,6 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.chatop.user.dto.UserDTO;
 import com.openclassrooms.chatop.user.service.UserService;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "User")
+@ApiResponse(description = "Success", responseCode = "200")
+@ApiResponse(description = "Unauthorized", responseCode = "401")
+@ApiResponse(description = "Invalid token", responseCode = "403")
 @RestController
 @RequestMapping("/api/auth")
 public class UserController {

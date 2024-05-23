@@ -17,8 +17,10 @@ import com.openclassrooms.chatop.auth.dto.AuthentificationResponse;
 import com.openclassrooms.chatop.auth.dto.RegisterRequest;
 import com.openclassrooms.chatop.auth.service.AuthentificationService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+@Tag(name = "Authentification")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
