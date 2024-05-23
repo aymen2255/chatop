@@ -16,7 +16,6 @@ import com.openclassrooms.chatop.rental.entity.Rental;
 import com.openclassrooms.chatop.rental.repository.RentalRepository;
 import com.openclassrooms.chatop.storage.service.StorageService;
 import com.openclassrooms.chatop.user.service.UserService;
-
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
