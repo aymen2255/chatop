@@ -22,9 +22,13 @@ public class JWTService {
 	private String secreteString;
 
 	public String generateToken(User user) {
-		return Jwts.builder().subject(user.getUsername()).claim("userId", user.getId())
+		return Jwts.builder()
+				.subject(user.getUsername())
+				.claim("userId", user.getId())
 				.issuedAt(new Date(System.currentTimeMillis()))
-				.expiration(new Date(System.currentTimeMillis() + jwtExpiration)).signWith(getSignInKey()).compact();
+				.expiration(new Date(System.currentTimeMillis() + jwtExpiration))
+				.signWith(getSignInKey())
+				.compact();
 	}
 
 	public Integer extractId(String token) {
