@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.chatop.auth.dto.AuthentificationRequest;
 import com.openclassrooms.chatop.auth.dto.AuthentificationResponse;
 import com.openclassrooms.chatop.auth.dto.RegisterRequest;
-import com.openclassrooms.chatop.auth.service.AuthentificationService;
+import com.openclassrooms.chatop.auth.service.AuthentificationServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 
-	private final AuthentificationService authService;
+	private final AuthentificationServiceImpl authService;
 
 	@PostMapping("/register")
 	public ResponseEntity<AuthentificationResponse> register(@RequestBody @Valid RegisterRequest registerRequest) {

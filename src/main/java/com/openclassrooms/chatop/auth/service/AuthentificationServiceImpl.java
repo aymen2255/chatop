@@ -14,33 +14,32 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AuthentificationService {
+public class AuthentificationServiceImpl implements AuthentificationService {
 
-    private final UserRepository userRepository;
-   
-    private final JWTService jwtService;
-   
-    private final PasswordEncoder passwordEncoder;
-   
-    private final AuthenticationManager authenticationManager;
+	private final UserRepository userRepository;
 
-    public AuthentificationResponse register(RegisterRequest registerRequest){
-    	
-    	var user = User.builder()
-    			.name(registerRequest.getName())
-    			.email(registerRequest.getEmail())
-    			.password(passwordEncoder.encode(registerRequest.getPassword()))
-    			.build();
-    	
-    	userRepository.save(user);
-    	
-    	var jwtToken = jwtService.generateToken(user);
-    	
-    	return AuthentificationResponse.builder().token(jwtToken).build();
+	private final JWTService jwtService;
 
-    }
+	private final PasswordEncoder passwordEncoder;
 
-	public AuthentificationResponse login(AuthentificationRequest authenticationRequest) {
+	private final AuthenticationManager authenticationManager;
+
+	@Override
+	public AuthentificationResponse register(RegisterRequest registerRequest) {
+
+		var user = User.builder().name(registerRequest.getName()).email(registerRequest.getEmail())
+				.password(passwordEncoder.encode(registerRequest.getPassword())).build();
+
+		userRepository.save(user);
+
+		var jwtToken = jwtService.generateToken(user);
+
+		return AuthentificationResponse.builder().token(jwtToken).build();
+
+	}
+
+	@Override
+	public AuthentificationResponse login(AuthentificationRequest authenticationRequest)  {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
 					authenticationRequest.getPassword()));
@@ -49,12 +48,10 @@ public class AuthentificationService {
 			var jwtToken = jwtService.generateToken(user);
 
 			return AuthentificationResponse.builder().token(jwtToken).build();
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 
 			throw new BadCredentialsException("Invalid username or password");
 		}
 	}
-
 
 }
