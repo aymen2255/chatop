@@ -1,6 +1,5 @@
 package com.openclassrooms.chatop.user.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -8,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.chatop.user.dto.UserDTO;
 import com.openclassrooms.chatop.user.service.UserService;
-
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 
 @Tag(name = "User")
 @ApiResponse(description = "Success", responseCode = "200")
@@ -18,11 +17,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @ApiResponse(description = "Invalid token", responseCode = "403")
 @RestController
 @RequestMapping("/api/auth")
-public class UserController {
-	
+@RequiredArgsConstructor
+public class UserController {	
 
-    @Autowired
-    private UserService userService;
+   private final UserService userService;
 
     
     @GetMapping("/me")

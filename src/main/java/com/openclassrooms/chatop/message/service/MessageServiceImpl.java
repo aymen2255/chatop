@@ -3,7 +3,6 @@ package com.openclassrooms.chatop.message.service;
 import java.util.Optional;
 import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.openclassrooms.chatop.jsonResponse.JsonResponse;
 import com.openclassrooms.chatop.jsonResponse.JsonResponseImpl;
@@ -16,24 +15,22 @@ import com.openclassrooms.chatop.user.entity.User;
 import com.openclassrooms.chatop.user.repository.UserRepository;
 import com.openclassrooms.chatop.user.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class MessageServiceImpl implements MessageService {
 
-	@Autowired
-	private RentalRepository rentalRepository;
+	
+	private final RentalRepository rentalRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
-	@Autowired
-	private MessageRepository messageRepository;
+	private final MessageRepository messageRepository;
 
-	@Autowired
-	private ModelMapper modelMapper;
+	private final ModelMapper modelMapper;
 
 	@Override
 	public JsonResponse newMessage(CreateMessageDTO messageDTO) throws BadRequestException {

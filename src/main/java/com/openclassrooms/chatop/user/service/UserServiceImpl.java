@@ -1,7 +1,6 @@
 package com.openclassrooms.chatop.user.service;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,17 +10,16 @@ import org.springframework.stereotype.Service;
 import com.openclassrooms.chatop.user.dto.UserDTO;
 import com.openclassrooms.chatop.user.entity.User;
 import com.openclassrooms.chatop.user.repository.UserRepository;
-
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private ModelMapper modelMapper;
+	private final UserRepository userRepository;
+
+	private final ModelMapper modelMapper;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -34,11 +32,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public User getUser() throws UsernameNotFoundException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
-		 if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
-	            throw new UsernameNotFoundException("No logged in user found");
-	        }
-		 
+
+		if (authentication == null || !authentication.isAuthenticated()
+				|| authentication.getPrincipal().equals("anonymousUser")) {
+			throw new UsernameNotFoundException("No logged in user found");
+		}
+
 		return (User) authentication.getPrincipal();
 	}
 
@@ -49,6 +48,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		UserDTO userDTO = modelMapper.map(user, UserDTO.class);
 
 		return userDTO;
-	}	
+	}
 
 }

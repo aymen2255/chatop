@@ -3,7 +3,6 @@ package com.openclassrooms.chatop.message.controller;
 import java.util.HashMap;
 
 import org.apache.coyote.BadRequestException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -21,6 +20,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @Tag(name = "Message")
 @ApiResponse(description = "Success", responseCode = "200")
@@ -28,10 +28,11 @@ import jakarta.validation.Valid;
 @ApiResponse(description = "Invalid token", responseCode = "403")
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class MessageController {
 
-	@Autowired
-	private MessageService messageService;
+	
+	private final MessageService messageService;
 
 	@PostMapping("/messages")
 	public ResponseEntity<JsonResponse> newMessage(@Valid @RequestBody CreateMessageDTO createMessageDTO) {

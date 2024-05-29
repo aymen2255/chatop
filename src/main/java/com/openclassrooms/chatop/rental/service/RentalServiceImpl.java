@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.openclassrooms.chatop.jsonResponse.JsonResponse;
 import com.openclassrooms.chatop.jsonResponse.JsonResponseImpl;
@@ -17,21 +16,19 @@ import com.openclassrooms.chatop.rental.repository.RentalRepository;
 import com.openclassrooms.chatop.storage.service.StorageService;
 import com.openclassrooms.chatop.user.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class RentalServiceImpl implements RentalService {
 
-	@Autowired
-	private RentalRepository rentalRepository;
+	private final RentalRepository rentalRepository;
 
-	@Autowired
-	private ModelMapper modelMapper;
+	private final ModelMapper modelMapper;
 
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private StorageService storageService;
+	private final UserService userService;
+
+	private final StorageService storageService;
 
 	@Override
 	public RentalsDTO getAllRentals() {
@@ -56,7 +53,7 @@ public class RentalServiceImpl implements RentalService {
 	public RentalDTO getRentalById(final Integer rentalId) {
 
 		Optional<Rental> rental = rentalRepository.findById(rentalId);
-		
+
 		if (rental.isPresent()) {
 			RentalDTO rentalDTO = modelMapper.map(rental, RentalDTO.class);
 			rentalDTO.setOwner_id(userService.getUser().getId());
@@ -67,11 +64,11 @@ public class RentalServiceImpl implements RentalService {
 	}
 
 	@Override
-	public JsonResponse newRental(CreateRentalDTO rentalDTO) {	
-		
+	public JsonResponse newRental(CreateRentalDTO rentalDTO) {
+
 		Rental rental = modelMapper.map(rentalDTO, Rental.class);
 		rental.setUser(userService.getUser());
-		
+
 		String imageUrl = storageService.store(rentalDTO.getPicture());
 		rental.setPicture(imageUrl);
 
