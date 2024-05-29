@@ -52,7 +52,7 @@ public class SecurityConfig {
                 		"/configuration/ui",
                 		"/configuration/security",
                 		"/swagger-ui/**",
-                		"/swagger-ui.html"
+                		"/swagger-ui.html","swagger-ui-custom.html"
                 		).permitAll()
                 .anyRequest().authenticated()
                 )
