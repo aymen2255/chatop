@@ -1,5 +1,6 @@
 package com.openclassrooms.chatop.configuration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -7,10 +8,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class UploadConfig implements WebMvcConfigurer {
 
+	@Value("${upload_file_path}")
+	private String uploadPath;
+	
+	
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/**")
-                .addResourceLocations("file:C:/Users/aymen/workspace/Developper_backend_Java_Spring/uploads/images/");
+                .addResourceLocations("file:"+uploadPath);
     }
 }
 
