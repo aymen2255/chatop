@@ -32,6 +32,14 @@ public class StorageServiceImpl implements StorageService {
 		return UUID.randomUUID().toString() + "." + fileExtension;
 	}
 
+	/**
+	 * Stores an uploaded file and returns its URI.
+	 * 
+	 * @param file The file to store.
+	 * @return The URI of the stored file.
+	 * @throws StorageException If the file is empty, there is an I/O error, or the
+	 *                          file is outside the allowed directory.
+	 */
 	@Override
 	public String store(MultipartFile file) {
 		try {
@@ -51,6 +59,7 @@ public class StorageServiceImpl implements StorageService {
 				Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
 			}
 
+			// return uploaded file URI
 			return ServletUriComponentsBuilder.fromCurrentContextPath()
 					.pathSegment("images", destinationFile.getFileName().toString()).toUriString();
 
