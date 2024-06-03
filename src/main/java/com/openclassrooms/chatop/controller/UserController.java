@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.chatop.dto.user.UserDTO;
 import com.openclassrooms.chatop.service.user.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class UserController {
 
    private final UserService userService;
 
-    
+   @Operation(description = "Get profile")
     @GetMapping("/me")
 	public ResponseEntity<UserDTO> getProfile(@RequestHeader("Authorization") String authorization) {
     	

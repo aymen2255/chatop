@@ -43,11 +43,13 @@ public class RentalController {
 		return ResponseEntity.ok(rentalService.getAllRentals());
 	}
 
+	@Operation(description = "Get rental by id")
 	@GetMapping("/rentals/{id}")
 	public ResponseEntity<RentalDTO> getRentalById(@PathVariable Integer id) {
 		return ResponseEntity.ok(rentalService.getRentalById(id));
 	}
 
+	@Operation(description = "Create rental")
 	@PostMapping("/rentals")
 	public ResponseEntity<JsonResponseService> createRental(@Valid @ModelAttribute CreateRentalDTO rentalDTO) {
 
@@ -67,6 +69,7 @@ public class RentalController {
 		}
 	}
 
+	@Operation(description = "update rental")
 	@PutMapping("/rentals/{id}")
 	public ResponseEntity<JsonResponseService> updateRental(@Valid @ModelAttribute UpdateRentalDTO rentalDTO,
 			@PathVariable Integer id) {

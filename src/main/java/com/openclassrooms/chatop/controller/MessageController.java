@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.chatop.dto.message.CreateMessageDTO;
 import com.openclassrooms.chatop.service.jsonResponse.JsonResponseService;
 import com.openclassrooms.chatop.service.message.MessageService;
+
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
@@ -32,6 +34,7 @@ public class MessageController {
 	
 	private final MessageService messageService;
 
+	@Operation(description = "Create message")
 	@PostMapping("/messages")
 	public ResponseEntity<JsonResponseService> newMessage(@Valid @RequestBody CreateMessageDTO createMessageDTO) {
 
