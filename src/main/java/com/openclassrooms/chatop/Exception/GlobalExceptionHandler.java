@@ -36,9 +36,14 @@ public class GlobalExceptionHandler {
 		});
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
 	}
-	
-	 @ExceptionHandler(Exception.class)
-	    public ResponseEntity<String> handleGeneralException(Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-	    }
+
+	@ExceptionHandler(UnauthorizedException.class)
+	public ResponseEntity<String> handleUnauthorizedException(UnauthorizedException ex) {
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+	}
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<String> handleGeneralException(Exception e) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+	}
 }
