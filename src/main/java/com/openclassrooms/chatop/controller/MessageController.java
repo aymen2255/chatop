@@ -1,6 +1,5 @@
 package com.openclassrooms.chatop.controller;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +27,7 @@ public class MessageController {
 
 	@Operation(description = "Create message")
 	@PostMapping("/messages")
-	public ResponseEntity<String> newMessage(@Valid @RequestBody CreateMessageDTO createMessageDTO)
-			throws BadRequestException {
+	public ResponseEntity<String> newMessage(@Valid @RequestBody CreateMessageDTO createMessageDTO) {
 
 		messageService.newMessage(createMessageDTO);
 

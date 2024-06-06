@@ -1,7 +1,6 @@
 package com.openclassrooms.chatop.service.message;
 
 import java.util.Optional;
-import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import com.openclassrooms.chatop.dto.message.CreateMessageDTO;
@@ -11,7 +10,6 @@ import com.openclassrooms.chatop.entity.User;
 import com.openclassrooms.chatop.repository.MessageRepository;
 import com.openclassrooms.chatop.repository.RentalRepository;
 import com.openclassrooms.chatop.repository.UserRepository;
-import com.openclassrooms.chatop.service.user.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -24,14 +22,12 @@ public class MessageServiceImpl implements MessageService {
 
 	private final UserRepository userRepository;
 
-	private final UserService userService;
-
 	private final MessageRepository messageRepository;
 
 	private final ModelMapper modelMapper;
 
 	@Override
-	public Message newMessage(CreateMessageDTO messageDTO) throws BadRequestException {
+	public Message newMessage(CreateMessageDTO messageDTO) {
 
 		Optional<Rental> rental = rentalRepository.findById(messageDTO.getRental_id());
 
@@ -43,10 +39,6 @@ public class MessageServiceImpl implements MessageService {
 
 		if (!user.isPresent()) {
 			throw new EntityNotFoundException("User not found");
-		}
-
-		if (!user.get().getId().equals(userService.getUser().getId())) {
-			throw new BadRequestException("Invalid request");
 		}
 
 		Message message = modelMapper.map(messageDTO, Message.class);
