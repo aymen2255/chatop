@@ -1,5 +1,6 @@
 package com.openclassrooms.chatop.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.chatop.dto.user.UserDTO;
+import com.openclassrooms.chatop.entity.User;
 import com.openclassrooms.chatop.service.user.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,14 +23,20 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-public class UserController {	
+public class UserController {
 
-   private final UserService userService;
+	private final UserService userService;
 
-   @Operation(description = "Get profile")
-    @GetMapping("/me")
+	private final ModelMapper modelMapper;
+
+	@Operation(description = "Get profile")
+	@GetMapping("/me")
 	public ResponseEntity<UserDTO> getProfile(@RequestHeader("Authorization") String authorization) {
-    	
-		return ResponseEntity.ok(userService.getProfile());
+
+		User user = userService.getUser();
+		
+		UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+		
+		return ResponseEntity.ok(userDTO);
 	}
 }
