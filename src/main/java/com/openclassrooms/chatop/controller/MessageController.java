@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.chatop.dto.message.CreateMessageDTO;
-import com.openclassrooms.chatop.service.jsonResponse.JsonResponseService;
+import com.openclassrooms.chatop.dto.response.MessageResponseDTO;
 import com.openclassrooms.chatop.service.message.MessageService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,18 +30,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MessageController {
 
-	
 	private final MessageService messageService;
 
 	@Operation(description = "Create message")
 	@PostMapping("/messages")
-	public ResponseEntity<JsonResponseService> newMessage(@Valid @RequestBody CreateMessageDTO createMessageDTO) {
+	public ResponseEntity<String> newMessage(@Valid @RequestBody CreateMessageDTO createMessageDTO) {
 
 		try {
 
-			JsonResponseService createdMessage = messageService.newMessage(createMessageDTO);
+			messageService.newMessage(createMessageDTO);
 
-			return ResponseEntity.status(HttpStatus.CREATED).body(createdMessage);
+			MessageResponseDTO message = MessageResponseDTO.builder().message("Message send with success").build();
+			
+			return ResponseEntity.ok(message.getMessage());
 
 		} catch (BadRequestException | EntityNotFoundException e) {
 
