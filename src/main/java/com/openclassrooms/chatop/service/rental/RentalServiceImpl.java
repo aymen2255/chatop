@@ -1,13 +1,10 @@
 package com.openclassrooms.chatop.service.rental;
 
 import java.util.List;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import com.openclassrooms.chatop.dto.rental.UpdateRentalDTO;
+import com.openclassrooms.chatop.Exception.UnauthorizedException;
 import com.openclassrooms.chatop.entity.Rental;
 import com.openclassrooms.chatop.repository.RentalRepository;
-import com.openclassrooms.chatop.service.jsonResponse.JsonResponseService;
-import com.openclassrooms.chatop.service.jsonResponse.JsonResponseServiceImpl;
 import com.openclassrooms.chatop.service.user.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 public class RentalServiceImpl implements RentalService {
 
 	private final RentalRepository rentalRepository;
-
-	private final ModelMapper modelMapper;
 
 	private final UserService userService;
 
@@ -42,19 +37,22 @@ public class RentalServiceImpl implements RentalService {
 	}
 
 	@Override
-	public JsonResponseService updateRental(Integer id, UpdateRentalDTO rentalDTO) {
+	public Rental updateRental(Integer id, Rental updatedRental) throws EntityNotFoundException, UnauthorizedException {
 
-		Rental rental = rentalRepository.findByIdAndUserId(id, userService.getUser().getId());
+		Rental rental = rentalRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Rental Not found"));
 
-		if (rental == null)
-			new EntityNotFoundException("Rental not found");
+		if (!rental.getUser().getId().equals(userService.getUser().getId())) {
+			throw new UnauthorizedException("Only the owner of the rental can modify it.");
+		}
 
-		modelMapper.map(rentalDTO, rental);
-		rental.setUser(userService.getUser());
+		rental.setName(updatedRental.getName());
+		rental.setSurface(updatedRental.getSurface());
+		rental.setPrice(updatedRental.getPrice());
+		rental.setDescription(updatedRental.getDescription());
+		rental.setName(updatedRental.getName());
 
-		rentalRepository.save(rental);
-
-		return JsonResponseServiceImpl.builder().message("Rental updated !").build();
+		return rentalRepository.save(rental);
 	}
 
 }

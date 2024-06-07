@@ -18,15 +18,12 @@ import com.openclassrooms.chatop.dto.rental.RentalsDTO;
 import com.openclassrooms.chatop.dto.rental.UpdateRentalDTO;
 import com.openclassrooms.chatop.dto.response.MessageResponseDTO;
 import com.openclassrooms.chatop.entity.Rental;
-import com.openclassrooms.chatop.service.jsonResponse.JsonResponseService;
 import com.openclassrooms.chatop.service.rental.RentalService;
 import com.openclassrooms.chatop.service.storage.StorageService;
 import com.openclassrooms.chatop.service.user.UserService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -94,23 +91,18 @@ public class RentalController {
 
 	@Operation(description = "update rental")
 	@PutMapping("/rentals/{id}")
-	public ResponseEntity<JsonResponseService> updateRental(@Valid @ModelAttribute UpdateRentalDTO rentalDTO,
+	public ResponseEntity<MessageResponseDTO> updateRental(@Valid @ModelAttribute UpdateRentalDTO rentalDTO,
 			@PathVariable Integer id) {
+		
+		Rental updatedRental = modelMapper.map(rentalDTO, Rental.class);
+		updatedRental.setUser(userService.getUser());
+		
+		rentalService.updateRental(id, updatedRental);
+		
+		MessageResponseDTO message = MessageResponseDTO.builder().message("Rental updated !").build();
 
-		try {
+		return ResponseEntity.status(HttpStatus.CREATED).body(message);
 
-			JsonResponseService createdRental = rentalService.updateRental(id, rentalDTO);
-
-			return ResponseEntity.status(HttpStatus.CREATED).body(createdRental);
-
-		} catch (EntityNotFoundException e) {
-
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-		} catch (Exception e) {
-
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
 	}
 
 }
