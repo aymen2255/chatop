@@ -1,13 +1,11 @@
 package com.openclassrooms.chatop.service.rental;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import com.openclassrooms.chatop.dto.rental.CreateRentalDTO;
 import com.openclassrooms.chatop.dto.rental.RentalDTO;
-import com.openclassrooms.chatop.dto.rental.RentalsDTO;
 import com.openclassrooms.chatop.dto.rental.UpdateRentalDTO;
 import com.openclassrooms.chatop.entity.Rental;
 import com.openclassrooms.chatop.repository.RentalRepository;
@@ -31,22 +29,9 @@ public class RentalServiceImpl implements RentalService {
 	private final StorageService storageService;
 
 	@Override
-	public RentalsDTO getAllRentals() {
-
-		List<Rental> rentals = rentalRepository.findAll();
-
-		List<RentalDTO> listRentalDTO = new ArrayList<>(rentals.size());
-
-		for (Rental rental : rentals) {
-			RentalDTO rentalDTO = modelMapper.map(rental, RentalDTO.class);
-			rentalDTO.setOwner_id(userService.getUser().getId());
-			listRentalDTO.add(rentalDTO);
-		}
-
-		RentalsDTO rentalsDTO = new RentalsDTO();
-		rentalsDTO.setRentals(listRentalDTO);
-
-		return rentalsDTO;
+	public List<Rental> getAllRentals() {
+		
+		return  rentalRepository.findAll();
 	}
 
 	@Override

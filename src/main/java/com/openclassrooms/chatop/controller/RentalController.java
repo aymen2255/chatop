@@ -1,5 +1,8 @@
 package com.openclassrooms.chatop.controller;
 
+import java.util.List;
+import java.util.ArrayList;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +16,7 @@ import com.openclassrooms.chatop.dto.rental.CreateRentalDTO;
 import com.openclassrooms.chatop.dto.rental.RentalDTO;
 import com.openclassrooms.chatop.dto.rental.RentalsDTO;
 import com.openclassrooms.chatop.dto.rental.UpdateRentalDTO;
+import com.openclassrooms.chatop.entity.Rental;
 import com.openclassrooms.chatop.service.jsonResponse.JsonResponseService;
 import com.openclassrooms.chatop.service.rental.RentalService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,11 +36,26 @@ import lombok.RequiredArgsConstructor;
 public class RentalController {
 
 	private final RentalService rentalService;
+	private final ModelMapper modelMapper;
 
 	@Operation(description = "Get all rentals")
 	@GetMapping("/rentals")
 	public ResponseEntity<RentalsDTO> getAllRentals() {
-		return ResponseEntity.ok(rentalService.getAllRentals());
+		List<Rental> rentals = rentalService.getAllRentals();
+		
+		List<RentalDTO> listRentalDTO = new ArrayList<>(rentals.size());
+
+		for (Rental rental : rentals) {
+			RentalDTO rentalDTO = modelMapper.map(rental, RentalDTO.class);
+			rentalDTO.setOwner_id(rental.getUser().getId());
+			listRentalDTO.add(rentalDTO);
+		}
+
+		RentalsDTO rentalsDTO = new RentalsDTO();
+		rentalsDTO.setRentals(listRentalDTO);
+		
+		
+		return ResponseEntity.ok(rentalsDTO);
 	}
 
 	@Operation(description = "Get rental by id")
