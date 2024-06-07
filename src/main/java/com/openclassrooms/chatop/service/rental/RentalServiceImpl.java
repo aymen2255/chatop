@@ -1,11 +1,9 @@
 package com.openclassrooms.chatop.service.rental;
 
 import java.util.List;
-import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import com.openclassrooms.chatop.dto.rental.CreateRentalDTO;
-import com.openclassrooms.chatop.dto.rental.RentalDTO;
 import com.openclassrooms.chatop.dto.rental.UpdateRentalDTO;
 import com.openclassrooms.chatop.entity.Rental;
 import com.openclassrooms.chatop.repository.RentalRepository;
@@ -30,22 +28,15 @@ public class RentalServiceImpl implements RentalService {
 
 	@Override
 	public List<Rental> getAllRentals() {
-		
-		return  rentalRepository.findAll();
+
+		return rentalRepository.findAll();
 	}
 
 	@Override
-	public RentalDTO getRentalById(final Integer rentalId) {
+	public Rental getRentalById(final Integer rentalId) throws EntityNotFoundException {
 
-		Optional<Rental> rental = rentalRepository.findById(rentalId);
+		return rentalRepository.findById(rentalId).orElseThrow(() -> new EntityNotFoundException("Rental Not found"));
 
-		if (rental.isPresent()) {
-			RentalDTO rentalDTO = modelMapper.map(rental, RentalDTO.class);
-			rentalDTO.setOwner_id(userService.getUser().getId());
-			return rentalDTO;
-		}
-
-		return null;
 	}
 
 	@Override

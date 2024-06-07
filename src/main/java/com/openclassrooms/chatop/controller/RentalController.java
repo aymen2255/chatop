@@ -42,7 +42,7 @@ public class RentalController {
 	@GetMapping("/rentals")
 	public ResponseEntity<RentalsDTO> getAllRentals() {
 		List<Rental> rentals = rentalService.getAllRentals();
-		
+
 		List<RentalDTO> listRentalDTO = new ArrayList<>(rentals.size());
 
 		for (Rental rental : rentals) {
@@ -53,15 +53,19 @@ public class RentalController {
 
 		RentalsDTO rentalsDTO = new RentalsDTO();
 		rentalsDTO.setRentals(listRentalDTO);
-		
-		
+
 		return ResponseEntity.ok(rentalsDTO);
 	}
 
 	@Operation(description = "Get rental by id")
 	@GetMapping("/rentals/{id}")
 	public ResponseEntity<RentalDTO> getRentalById(@PathVariable Integer id) {
-		return ResponseEntity.ok(rentalService.getRentalById(id));
+
+		Rental rental = rentalService.getRentalById(id);
+		RentalDTO rentalDTO = modelMapper.map(rental, RentalDTO.class);
+		rentalDTO.setOwner_id(rental.getUser().getId());
+
+		return ResponseEntity.ok(rentalDTO);
 	}
 
 	@Operation(description = "Create rental")
