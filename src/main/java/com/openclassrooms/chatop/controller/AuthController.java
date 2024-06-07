@@ -51,6 +51,8 @@ public class AuthController {
 	public ResponseEntity<AuthentificationResponse> login(
 			@RequestBody @Valid AuthentificationRequest authentificationRequest) {
 
-		return ResponseEntity.ok(authService.login(authentificationRequest));
+		String jwtToken = authService.login(authentificationRequest);
+		
+		return ResponseEntity.ok(AuthentificationResponse.builder().token(jwtToken).build());
 	}
 }

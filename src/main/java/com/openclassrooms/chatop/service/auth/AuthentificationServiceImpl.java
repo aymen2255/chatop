@@ -1,19 +1,17 @@
 package com.openclassrooms.chatop.service.auth;
 
 import java.util.Optional;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-
 import com.openclassrooms.chatop.Exception.UserAlreadyExistsException;
 import com.openclassrooms.chatop.dto.auth.AuthentificationRequest;
-import com.openclassrooms.chatop.dto.auth.AuthentificationResponse;
 import com.openclassrooms.chatop.entity.User;
 import com.openclassrooms.chatop.repository.UserRepository;
 import com.openclassrooms.chatop.util.JWTService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +30,7 @@ public class AuthentificationServiceImpl implements AuthentificationService {
 	public User register(User user) {
 
 		Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
-		
+
 		if (existingUser.isPresent()) {
 			throw new UserAlreadyExistsException("User already exists.");
 		}
@@ -46,24 +44,22 @@ public class AuthentificationServiceImpl implements AuthentificationService {
 	 *
 	 * @param authenticationRequest The authentication request containing the user's
 	 *                              email and password.
-	 * @return The authentication response containing the JWT token.
+	 * @return String JWT token.
 	 * @throws BadCredentialsException If authentication fails due to invalid
 	 *                                 credentials.
 	 */
 	@Override
-	public AuthentificationResponse login(AuthentificationRequest authenticationRequest) {
+	public String login(AuthentificationRequest authenticationRequest) {
 		try {
 			// Authenticate the user using the email and password
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
-					authenticationRequest.getPassword()));
+			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+					authenticationRequest.getEmail(), authenticationRequest.getPassword()));
 
-			var user = userRepository.findByEmail(authenticationRequest.getEmail()).orElseThrow();
+			User user = (User) authentication.getPrincipal();
 
-			// Generate a JWT token for the authenticated user
-			var jwtToken = jwtService.generateToken(user);
+			return jwtService.generateToken(user);
 
-			return AuthentificationResponse.builder().token(jwtToken).build();
-		} catch (Exception e) {
+		} catch (BadCredentialsException e) {
 
 			throw new BadCredentialsException("Invalid username or password");
 		}
