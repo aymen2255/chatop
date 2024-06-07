@@ -1,8 +1,8 @@
 package com.openclassrooms.chatop.service.rental;
 
+import com.openclassrooms.chatop.Exception.EntityNotFoundException;
 import com.openclassrooms.chatop.Exception.UnauthorizedException;
 import com.openclassrooms.chatop.entity.Rental;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 
 public interface RentalService {

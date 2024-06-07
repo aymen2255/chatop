@@ -3,6 +3,7 @@ package com.openclassrooms.chatop.service.message;
 import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import com.openclassrooms.chatop.Exception.EntityNotFoundException;
 import com.openclassrooms.chatop.dto.message.CreateMessageDTO;
 import com.openclassrooms.chatop.entity.Message;
 import com.openclassrooms.chatop.entity.Rental;
@@ -10,7 +11,6 @@ import com.openclassrooms.chatop.entity.User;
 import com.openclassrooms.chatop.repository.MessageRepository;
 import com.openclassrooms.chatop.repository.RentalRepository;
 import com.openclassrooms.chatop.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service

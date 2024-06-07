@@ -2,11 +2,12 @@ package com.openclassrooms.chatop.service.rental;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
+
+import com.openclassrooms.chatop.Exception.EntityNotFoundException;
 import com.openclassrooms.chatop.Exception.UnauthorizedException;
 import com.openclassrooms.chatop.entity.Rental;
 import com.openclassrooms.chatop.repository.RentalRepository;
 import com.openclassrooms.chatop.service.user.UserService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
