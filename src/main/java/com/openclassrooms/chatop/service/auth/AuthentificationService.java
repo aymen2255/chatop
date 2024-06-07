@@ -1,14 +1,12 @@
 package com.openclassrooms.chatop.service.auth;
 
-import org.springframework.security.authentication.BadCredentialsException;
-
 import com.openclassrooms.chatop.dto.auth.AuthentificationRequest;
 import com.openclassrooms.chatop.dto.auth.AuthentificationResponse;
-import com.openclassrooms.chatop.dto.auth.RegisterRequest;
+import com.openclassrooms.chatop.entity.User;
 
 public interface AuthentificationService {
 
-	AuthentificationResponse register(RegisterRequest registerRequest) throws BadCredentialsException;
+	User register(User user);
 
 	AuthentificationResponse login(AuthentificationRequest authenticationRequest);
 }

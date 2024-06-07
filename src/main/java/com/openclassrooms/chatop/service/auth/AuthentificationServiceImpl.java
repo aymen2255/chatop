@@ -1,18 +1,18 @@
 package com.openclassrooms.chatop.service.auth;
 
+import java.util.Optional;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.openclassrooms.chatop.Exception.UserAlreadyExistsException;
 import com.openclassrooms.chatop.dto.auth.AuthentificationRequest;
 import com.openclassrooms.chatop.dto.auth.AuthentificationResponse;
-import com.openclassrooms.chatop.dto.auth.RegisterRequest;
 import com.openclassrooms.chatop.entity.User;
 import com.openclassrooms.chatop.repository.UserRepository;
 import com.openclassrooms.chatop.util.JWTService;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -23,48 +23,42 @@ public class AuthentificationServiceImpl implements AuthentificationService {
 
 	private final JWTService jwtService;
 
-	private final PasswordEncoder passwordEncoder;
-
 	private final AuthenticationManager authenticationManager;
 
-	
 	/**
-	 * Registers a new user and returns an authentication response with a JWT token.
-	 *
-	 * @param registerRequest The registration request containing the user's name, email, and password.
-	 * @return The authentication response containing the JWT token.
+	 * Registers a new user
 	 */
 	@Override
-	public AuthentificationResponse register(RegisterRequest registerRequest) {
+	public User register(User user) {
 
-		var user = User.builder().name(registerRequest.getName()).email(registerRequest.getEmail())
-				.password(passwordEncoder.encode(registerRequest.getPassword())).build();
+		Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+		
+		if (existingUser.isPresent()) {
+			throw new UserAlreadyExistsException("User already exists.");
+		}
 
-		userRepository.save(user);
-
-		// Generate a JWT token for the new user
-		var jwtToken = jwtService.generateToken(user);
-
-		return AuthentificationResponse.builder().token(jwtToken).build();
+		return userRepository.save(user);
 
 	}
 
 	/**
 	 * Authenticates a user and returns an authentication response with a JWT token.
 	 *
-	 * @param authenticationRequest The authentication request containing the user's email and password.
+	 * @param authenticationRequest The authentication request containing the user's
+	 *                              email and password.
 	 * @return The authentication response containing the JWT token.
-	 * @throws BadCredentialsException If authentication fails due to invalid credentials.
+	 * @throws BadCredentialsException If authentication fails due to invalid
+	 *                                 credentials.
 	 */
 	@Override
-	public AuthentificationResponse login(AuthentificationRequest authenticationRequest)  {
+	public AuthentificationResponse login(AuthentificationRequest authenticationRequest) {
 		try {
 			// Authenticate the user using the email and password
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
 					authenticationRequest.getPassword()));
 
 			var user = userRepository.findByEmail(authenticationRequest.getEmail()).orElseThrow();
-			
+
 			// Generate a JWT token for the authenticated user
 			var jwtToken = jwtService.generateToken(user);
 
