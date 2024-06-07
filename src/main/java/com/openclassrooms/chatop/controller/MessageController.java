@@ -27,13 +27,13 @@ public class MessageController {
 
 	@Operation(description = "Create message")
 	@PostMapping("/messages")
-	public ResponseEntity<String> newMessage(@Valid @RequestBody CreateMessageDTO createMessageDTO) {
+	public ResponseEntity<MessageResponseDTO> newMessage(@Valid @RequestBody CreateMessageDTO createMessageDTO) {
 
 		messageService.newMessage(createMessageDTO);
 
 		MessageResponseDTO message = MessageResponseDTO.builder().message("Message send with success").build();
 
-		return ResponseEntity.ok(message.getMessage());
+		return ResponseEntity.ok(message);
 
 	}
 
