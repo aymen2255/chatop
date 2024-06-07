@@ -16,9 +16,13 @@ import com.openclassrooms.chatop.dto.rental.CreateRentalDTO;
 import com.openclassrooms.chatop.dto.rental.RentalDTO;
 import com.openclassrooms.chatop.dto.rental.RentalsDTO;
 import com.openclassrooms.chatop.dto.rental.UpdateRentalDTO;
+import com.openclassrooms.chatop.dto.response.MessageResponseDTO;
 import com.openclassrooms.chatop.entity.Rental;
 import com.openclassrooms.chatop.service.jsonResponse.JsonResponseService;
 import com.openclassrooms.chatop.service.rental.RentalService;
+import com.openclassrooms.chatop.service.storage.StorageService;
+import com.openclassrooms.chatop.service.user.UserService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,6 +41,8 @@ public class RentalController {
 
 	private final RentalService rentalService;
 	private final ModelMapper modelMapper;
+	private final StorageService storageService;
+	private final UserService userService;
 
 	@Operation(description = "Get all rentals")
 	@GetMapping("/rentals")
@@ -70,22 +76,20 @@ public class RentalController {
 
 	@Operation(description = "Create rental")
 	@PostMapping("/rentals")
-	public ResponseEntity<JsonResponseService> createRental(@Valid @ModelAttribute CreateRentalDTO rentalDTO) {
+	public ResponseEntity<MessageResponseDTO> createRental(@Valid @ModelAttribute CreateRentalDTO rentalDTO) {
 
-		try {
+		Rental rental = modelMapper.map(rentalDTO, Rental.class);
+		rental.setUser(userService.getUser());
 
-			JsonResponseService response = rentalService.newRental(rentalDTO);
+		String imageUrl = storageService.store(rentalDTO.getPicture());
+		rental.setPicture(imageUrl);
 
-			return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		rentalService.newRental(rental);
 
-		} catch (EntityNotFoundException e) {
+		MessageResponseDTO message = MessageResponseDTO.builder().message("Rental created !").build();
 
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		return ResponseEntity.status(HttpStatus.CREATED).body(message);
 
-		} catch (Exception e) {
-
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
 	}
 
 	@Operation(description = "update rental")

@@ -3,13 +3,11 @@ package com.openclassrooms.chatop.service.rental;
 import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import com.openclassrooms.chatop.dto.rental.CreateRentalDTO;
 import com.openclassrooms.chatop.dto.rental.UpdateRentalDTO;
 import com.openclassrooms.chatop.entity.Rental;
 import com.openclassrooms.chatop.repository.RentalRepository;
 import com.openclassrooms.chatop.service.jsonResponse.JsonResponseService;
 import com.openclassrooms.chatop.service.jsonResponse.JsonResponseServiceImpl;
-import com.openclassrooms.chatop.service.storage.StorageService;
 import com.openclassrooms.chatop.service.user.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +21,6 @@ public class RentalServiceImpl implements RentalService {
 	private final ModelMapper modelMapper;
 
 	private final UserService userService;
-
-	private final StorageService storageService;
 
 	@Override
 	public List<Rental> getAllRentals() {
@@ -40,17 +36,9 @@ public class RentalServiceImpl implements RentalService {
 	}
 
 	@Override
-	public JsonResponseService newRental(CreateRentalDTO rentalDTO) {
+	public Rental newRental(Rental rental) {
 
-		Rental rental = modelMapper.map(rentalDTO, Rental.class);
-		rental.setUser(userService.getUser());
-
-		String imageUrl = storageService.store(rentalDTO.getPicture());
-		rental.setPicture(imageUrl);
-
-		rentalRepository.save(rental);
-
-		return JsonResponseServiceImpl.builder().message("Rental created !").build();
+		return rentalRepository.save(rental);
 	}
 
 	@Override

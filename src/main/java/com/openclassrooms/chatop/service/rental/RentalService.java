@@ -1,6 +1,5 @@
 package com.openclassrooms.chatop.service.rental;
 
-import com.openclassrooms.chatop.dto.rental.CreateRentalDTO;
 import com.openclassrooms.chatop.dto.rental.UpdateRentalDTO;
 import com.openclassrooms.chatop.entity.Rental;
 import com.openclassrooms.chatop.service.jsonResponse.JsonResponseService;
@@ -13,7 +12,7 @@ public interface RentalService {
 
 	Rental getRentalById(Integer rentalId) throws EntityNotFoundException;
 
-	JsonResponseService newRental(CreateRentalDTO rentalDTO);
+	Rental newRental(Rental rental);
 
 	JsonResponseService updateRental(Integer id, UpdateRentalDTO rentalDTO);
 
