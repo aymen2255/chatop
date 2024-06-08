@@ -16,7 +16,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Tag(name = "Authentification")
 @RestController
@@ -24,8 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class AuthController {
 
-	private final AuthentificationService authService;
-	private final PasswordEncoder passwordEncoder;
+	private final AuthentificationService authService;	
 	private final JWTService jwtService;
 	private final ModelMapper modelMapper;
 
@@ -33,8 +31,7 @@ public class AuthController {
 	@PostMapping("/register")
 	public ResponseEntity<AuthentificationResponse> register(@RequestBody @Valid RegisterRequest registerRequest) {
 
-		User user = modelMapper.map(registerRequest, User.class);
-		user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+		User user = modelMapper.map(registerRequest, User.class);		
 
 		authService.register(user);
 

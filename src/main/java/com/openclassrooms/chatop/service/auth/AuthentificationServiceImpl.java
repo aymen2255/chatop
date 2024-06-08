@@ -12,6 +12,7 @@ import com.openclassrooms.chatop.repository.UserRepository;
 import com.openclassrooms.chatop.util.JWTService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,8 @@ public class AuthentificationServiceImpl implements AuthentificationService {
 	private final JWTService jwtService;
 
 	private final AuthenticationManager authenticationManager;
+	
+	private final PasswordEncoder passwordEncoder;
 
 	/**
 	 * Registers a new user
@@ -35,6 +38,8 @@ public class AuthentificationServiceImpl implements AuthentificationService {
 			throw new UserAlreadyExistsException("User already exists.");
 		}
 
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		
 		return userRepository.save(user);
 
 	}
